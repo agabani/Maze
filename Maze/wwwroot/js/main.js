@@ -8,8 +8,9 @@
 
         var cube;
 
-        init();
-        animate();
+        var createCube = function(geometry, material) {
+            return new THREE.Mesh(geometry, material);
+        };
 
         function init() {
             container = document.body;
@@ -43,11 +44,13 @@
 
             var geometry = new THREE.BoxGeometry(1, 1, 1);
             var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
-            cube = new THREE.Mesh(geometry, material);
+
+            cube = createCube(geometry, material);
+            var cube2 = createCube(geometry, material);
+            cube2.position.set(1, 1, 1);
 
             scene.add(cube);
-
-            camera.position.z = 5;
+            scene.add(cube2);
 
             container.appendChild(renderer.domElement);
 
@@ -56,6 +59,7 @@
 
             window.addEventListener("resize", onWindowResize, false);
         }
+
 
         function onWindowResize() {
             camera.aspect = window.innerWidth / window.innerHeight;
@@ -66,10 +70,6 @@
 
         function animate() {
             requestAnimationFrame(animate);
-
-            cube.rotation.x += 0.1;
-            cube.rotation.y += 0.1;
-
             render();
             stats.update();
         }
@@ -78,4 +78,7 @@
             controls.update(clock.getDelta());
             renderer.render(scene, camera);
         }
+
+        init();
+        animate();
     });
