@@ -1,38 +1,45 @@
-﻿requirejs(["three"],
-    function(three) {
+﻿requirejs(["three", "stats"],
+    function(THREE, Stats) {
         "use strict";
 
-        (function() {
+        var stats = new Stats();
 
-            var container, stats;
-            var camera, controls, scene, renderer;
+        stats.showPanel(1);
 
-            var scene = new three.Scene();
-            var camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            var renderer = new three.WebGLRenderer();
+        document.body.appendChild(stats.dom);
+        console.log(status);
 
-            renderer.setSize(window.innerWidth, window.innerHeight);
+        var camera, controls, scene, renderer;
 
-            document.body.appendChild(renderer.domElement);
+        var scene = new THREE.Scene();
+        var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        var renderer = new THREE.WebGLRenderer();
 
-            var geometry = new three.BoxGeometry(1, 1, 1);
-            var material = new three.MeshBasicMaterial({ color: 0x00ff00 });
-            var cube = new three.Mesh(geometry, material);
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-            scene.add(cube);
+        document.body.appendChild(renderer.domElement);
 
-            camera.position.z = 5;
+        var geometry = new THREE.BoxGeometry(1, 1, 1);
+        var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+        var cube = new THREE.Mesh(geometry, material);
 
-            function animate() {
-                requestAnimationFrame(animate);
+        scene.add(cube);
 
-                cube.rotation.x += 0.1;
-                cube.rotation.y += 0.1;
+        camera.position.z = 5;
 
-                renderer.render(scene, camera);
-            }
+        function animate() {
+            requestAnimationFrame(animate);
 
-            animate();
+            stats.begin();
 
-        }());
+            cube.rotation.x += 0.1;
+            cube.rotation.y += 0.1;
+
+
+            renderer.render(scene, camera);
+            stats.end();
+        }
+
+        animate();
+
     });
