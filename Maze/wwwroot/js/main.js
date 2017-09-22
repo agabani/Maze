@@ -19,7 +19,7 @@
             console.log(firstpersoncontrols);
             controls = new THREE.FirstPersonControls(camera);
 
-            controls.movementSpeed = 1000;
+            controls.movementSpeed = 10;
             controls.lookSpeed = 0.125;
             controls.lookVertical = true;
             controls.constrainVertical = true;
@@ -30,12 +30,19 @@
             scene.background = new THREE.Color(0xffffff);
             scene.fog = new THREE.FogExp2(0xffffff, 0.00015);
 
+            var ambientLight = new THREE.AmbientLight(0xcccccc);
+            scene.add(ambientLight);
+
+            var directionalLight = new THREE.DirectionalLight(0xffffff, 2);
+            directionalLight.position.set(1, 1, 0.5).normalize();
+            scene.add(directionalLight);
+
             renderer = new THREE.WebGLRenderer();
             renderer.setPixelRatio(window.devicePixelRatio);
             renderer.setSize(window.innerWidth, window.innerHeight);
 
             var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
+            var material = new THREE.MeshLambertMaterial({ color: 0x00ff00 });
             cube = new THREE.Mesh(geometry, material);
 
             scene.add(cube);
