@@ -1,20 +1,23 @@
 ﻿requirejs(["three"],
-    function() {
+    function(three) {
         "use strict";
 
         (function() {
 
-            var scene = new THREE.Scene();
-            var camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-            var renderer = new THREE.WebGLRenderer();
+            var container, stats;
+            var camera, controls, scene, renderer;
+
+            var scene = new three.Scene();
+            var camera = new three.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+            var renderer = new three.WebGLRenderer();
 
             renderer.setSize(window.innerWidth, window.innerHeight);
 
             document.body.appendChild(renderer.domElement);
 
-            var geometry = new THREE.BoxGeometry(1, 1, 1);
-            var material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-            var cube = new THREE.Mesh(geometry, material);
+            var geometry = new three.BoxGeometry(1, 1, 1);
+            var material = new three.MeshBasicMaterial({ color: 0x00ff00 });
+            var cube = new three.Mesh(geometry, material);
 
             scene.add(cube);
 
