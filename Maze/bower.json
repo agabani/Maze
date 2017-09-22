@@ -6,6 +6,7 @@
     "jquery": "2.2.0",
     "jquery-validation": "1.14.0",
     "jquery-validation-unobtrusive": "3.2.6",
-    "three.js": "three#r87"
+    "three.js": "three#r87",
+    "requirejs": "2.3.5"
   }
 }
