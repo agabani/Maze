@@ -1,5 +1,5 @@
-﻿requirejs(["three", "stats"],
-    function(THREE, Stats) {
+﻿requirejs(["three", "stats", "firstpersoncontrols"],
+    function(THREE, Stats, firstpersoncontrols) {
         "use strict";
 
         var container, stats;
@@ -13,8 +13,22 @@
 
         function init() {
             container = document.body;
+
             camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 20000);
+
+            console.log(firstpersoncontrols);
+            controls = new THREE.FirstPersonControls(camera);
+
+            controls.movementSpeed = 1000;
+            controls.lookSpeed = 0.125;
+            controls.lookVertical = true;
+            controls.constrainVertical = true;
+            controls.verticalMin = 1.1;
+            controls.verticalMax = 2.2;
+
             scene = new THREE.Scene();
+            scene.background = new THREE.Color(0xffffff);
+            scene.fog = new THREE.FogExp2(0xffffff, 0.00015);
 
             renderer = new THREE.WebGLRenderer();
             renderer.setPixelRatio(window.devicePixelRatio);
@@ -40,7 +54,7 @@
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-            // controls.handleResize();
+            controls.handleResize();
         }
 
         function animate() {
@@ -54,7 +68,7 @@
         }
 
         function render() {
-            // controls.update( clock.getDelta() );
+            controls.update(clock.getDelta());
             renderer.render(scene, camera);
         }
     });
