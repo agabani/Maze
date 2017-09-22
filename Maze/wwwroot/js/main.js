@@ -17,7 +17,6 @@
 
             camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 20000);
 
-            console.log(firstpersoncontrols);
             controls = new THREE.FirstPersonControls(camera);
 
             controls.movementSpeed = 10;
