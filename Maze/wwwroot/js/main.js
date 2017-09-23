@@ -18,6 +18,7 @@
             var raycaster = new THREE.Raycaster();
             var clickRequest = false;
             var mouseCoords = new THREE.Vector2();
+            var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
 
             function init() {
 
@@ -140,7 +141,7 @@
                         if (!clickRequest) {
                             mouseCoords.set(
                                 (event.clientX / window.innerWidth) * 2 - 1,
-                                - (event.clientY / window.innerWidth) - 2 + 1
+                                - (event.clientY / window.innerHeight) * 2 + 1
                             );
 
                             clickRequest = true;
@@ -192,11 +193,10 @@
                 if (clickRequest) {
                     raycaster.setFromCamera(mouseCoords, camera);
 
-                    var ballMass = 3;
+                    var ballMass = 0.7;
                     var ballRadius = 0.4;
 
-                    var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16),
-                        new THREE.MeshPhongMaterial({ color: 0x202020 }));
+                    var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
                     ball.castShadow = true;
                     ball.receiveShadow = true;
                     var ballShape = new Ammo.btSphereShape(ballRadius);
