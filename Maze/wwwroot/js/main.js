@@ -105,7 +105,57 @@
                 ground.castShadow = true;
                 ground.receiveShadow = true;
 
-                // soft
+                // wall 1
+                pos.set(-20, 1, 0);
+                quat.set(0, 0, 0, 1);
+                var wall1 = createParalellepiped(1,
+                    1,
+                    40,
+                    0,
+                    pos,
+                    quat,
+                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
+                wall1.castShadow = true;
+                wall1.receiveShadow = true;
+
+                // wall 2
+                pos.set(20, 1, 0);
+                quat.set(0, 0, 0, 1);
+                var wall2 = createParalellepiped(1,
+                    1,
+                    40,
+                    0,
+                    pos,
+                    quat,
+                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
+                wall2.castShadow = true;
+                wall2.receiveShadow = true;
+
+                // wall 3
+                pos.set(0, 1, -20);
+                quat.set(0, 0, 0, 1);
+                var wall3 = createParalellepiped(40,
+                    1,
+                    1,
+                    0,
+                    pos,
+                    quat,
+                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
+                wall3.castShadow = true;
+                wall3.receiveShadow = true;
+
+                // wall 4
+                pos.set(0, 1, 20);
+                quat.set(0, 0, 0, 1);
+                var wall4 = createParalellepiped(40,
+                    1,
+                    1,
+                    0,
+                    pos,
+                    quat,
+                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
+                wall4.castShadow = true;
+                wall4.receiveShadow = true;
 
                 var ballMass = 3;
                 var ballRadius = 0.4;
