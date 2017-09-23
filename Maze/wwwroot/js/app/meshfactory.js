@@ -53,23 +53,17 @@
         GroundMesh.prototype = Object.create(PhysicsMesh.prototype);
         GroundMesh.constructor = GroundMesh;
 
-
-        function Ramp(pos, quat) {
+        function RampMesh(pos, quat) {
             var sx = 10, sy = 1, sz = 4, mass = 0;
 
             var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), rampMaterial);
             var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
-            shape.setMargin(margin);
 
-            var body = createRigidBody(mesh, shape, mass, pos, quat);
-
-            mesh.castShadow = true;
-            mesh.receiveShadow = true;
-
-            this.mesh = mesh;
-            this.shape = shape;
-            this.body = body;
+            PhysicsMesh.call(this, mesh, shape, mass, pos, quat);
         }
+
+        RampMesh.prototype = Object.create(PhysicsMesh.prototype);
+        RampMesh.constructor = RampMesh;
 
         function Wall(options) {
             var mass = 0;
@@ -116,7 +110,7 @@
         return {
             Ball: BallMesh,
             Ground: GroundMesh,
-            Ramp: Ramp,
+            Ramp: RampMesh,
             Wall: Wall
         };
     });
