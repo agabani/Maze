@@ -185,6 +185,7 @@
                 meshSoftBody.setTotalMass(mass, false);
                 Ammo.castObject(meshSoftBody, Ammo.btCollisionObject).getCollisionShape().setMargin(margin);
                 physicsWorld.addSoftBody(meshSoftBody, 1, -1);
+                mesh.userData.physicsBody = meshSoftBody;
                 meshSoftBody.setActivationState(4);
                 softBodies.push(mesh);
             }
@@ -319,8 +320,67 @@
             }
 
             function render() {
+                var deltaTime = clock.getDelta();
+                updatePhsyics(deltaTime);
                 controls.update(clock.getDelta());
                 renderer.render(scene, camera);
+            }
+
+            function updatePhsyics(deltaTime) {
+                physicsWorld.stepSimulation(deltaTime, 10);
+
+                for (var i = 0, il = softBodies.length; i < il; i++) {
+                    var volume = softBodies[i];
+                    var geometry = volume.geometry;
+                    var softBody = volume.userData.physicsBody;
+                    var volumePositions = geometry.attributes.position.array;
+                    var volumeNormals = geometry.attributes.normal.array;
+                    var association = geometry.ammoIndexAssociation;
+                    var numVerts = association.length;
+                    var nodes = softBody.get_m_nodes();
+
+                    for (var j = 0; j < numVerts; j++) {
+                        var node = nodes.at(j);
+                        var nodePos = node.get_m_x();
+                        var x = nodePos.x();
+                        var y = nodePos.y();
+                        var z = nodePos.z();
+                        var nodeNormal = node.get_m_n();
+                        var nx = nodeNormal.x();
+                        var ny = nodeNormal.y();
+                        var nz = nodeNormal.z();
+
+                        var assocVertex = association[j];
+
+                        for (var k = 0, kl = assocVertex.length; k < kl; k++) {
+                            var indexVertex = assocVertex[k];
+                            volumePositions[indexVertex] = x;
+                            volumeNormals[indexVertex] = nx;
+                            indexVertex++;
+                            volumePositions[indexVertex] = y;
+                            volumeNormals[indexVertex] = ny;
+                            indexVertex++;
+                            volumePositions[indexVertex] = z;
+                            volumeNormals[indexVertex] = nz;
+                        }
+                    }
+
+                    geometry.attributes.position.needsUpdate = true;
+                    geometry.attributes.normal.needsUpdate = true;
+                }
+
+                for (var i = 0, il = rigidBodies.length; i < il; i++) {
+                    var rigidBody = rigidBodies[i];
+                    var rigidBodyPhysics = rigidBody.userData.physicsBody;
+                    var motionState = rigidBodyPhysics.getMotionState();
+                    if (motionState) {
+                        motionState.getWorldTransform(transformAux1);
+                        var position = transformAux1.getOrigin();
+                        var rotation = transformAux1.getRotation();
+                        rigidBody.position.set(position.x(), position.y(), position.z());
+                        rigidBody.quaternion.set(rotation.x(), rotation.y(), rotation.z(), rotation.w());
+                    }
+                }
             }
 
             init();
