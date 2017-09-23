@@ -9,7 +9,7 @@
         var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
         var rampMaterial = new THREE.MeshPhongMaterial({ color: 0x606060 });
 
-        function Ball(pos, quat, physicsWorld, rigidBodies, scene) {
+        function Ball(pos, quat, physicsWorld, rigidBodies) {
             var ballMass = 0.7;
             var ballRadius = 0.4;
 
@@ -18,11 +18,11 @@
             this.mesh.receiveShadow = true;
             this.ballShape = new Ammo.btSphereShape(ballRadius);
             this.ballShape.setMargin(margin);
-            this.ballBody = createRigidBody(this.mesh, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies, scene);
+            this.ballBody = createRigidBody(this.mesh, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies);
             this.ballBody.setFriction(0.5);
         };
 
-        function Ground(options, physicsWorld, rigidBodies, scene) {
+        function Ground(options, physicsWorld, rigidBodies) {
             this.mesh = createParalellepiped(40,
                 1,
                 40,
@@ -31,13 +31,12 @@
                 options.quat,
                 groundMaterial,
                 physicsWorld,
-                rigidBodies,
-                scene);
+                rigidBodies);
             this.mesh.castShadow = true;
             this.mesh.receiveShadow = true;
         }
 
-        function Ramp(pos, quat, physicsWorld, rigidBodies, scene) {
+        function Ramp(pos, quat, physicsWorld, rigidBodies) {
             this.mesh = createParalellepiped(10,
                 1,
                 4,
@@ -45,12 +44,12 @@
                 pos,
                 quat,
                 rampMaterial,
-                physicsWorld, rigidBodies, scene);
+                physicsWorld, rigidBodies);
             this.mesh.castShadow = true;
             this.mesh.receiveShadow = true;
         }
 
-        function Wall(options, physicsWorld, rigidBodies, scene) {
+        function Wall(options, physicsWorld, rigidBodies) {
             this.mesh = createParalellepiped(options.sx,
                 options.sy,
                 options.sz,
@@ -59,23 +58,22 @@
                 options.quat,
                 wallMaterial,
                 physicsWorld,
-                rigidBodies,
-                scene);
+                rigidBodies);
             this.mesh.castShadow = true;
             this.mesh.receiveShadow = true;
         };
 
-        function createParalellepiped(sx, sy, sz, mass, pos, quat, material, physicsWorld, rigidBodies, scene) {
+        function createParalellepiped(sx, sy, sz, mass, pos, quat, material, physicsWorld, rigidBodies) {
             var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), material);
             var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
             shape.setMargin(margin);
 
-            createRigidBody(mesh, shape, mass, pos, quat, physicsWorld, rigidBodies, scene);
+            createRigidBody(mesh, shape, mass, pos, quat, physicsWorld, rigidBodies);
 
             return mesh;
         }
 
-        function createRigidBody(mesh, physicsShape, mass, pos, quat, physicsWorld, rigidBodies, scene) {
+        function createRigidBody(mesh, physicsShape, mass, pos, quat, physicsWorld, rigidBodies) {
             mesh.position.copy(pos);
             mesh.quaternion.copy(quat);
 
@@ -92,8 +90,6 @@
             var body = new Ammo.btRigidBody(rbInfo);
 
             mesh.userData.physicsBody = body;
-
-            //scene.add(mesh);
 
             if (mass > 0) {
                 rigidBodies.push(mesh);
