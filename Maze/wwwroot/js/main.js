@@ -1,5 +1,5 @@
-﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "ammo", "orbitcontrols"],
-    function (THREE, stats, scene, renderer, camera, clock, raycaster) {
+﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "ammo", "orbitcontrols"],
+    function(THREE, stats, scene, renderer, camera, clock, raycaster, lighting) {
         "use strict";
 
         Ammo().then(function(Ammo) {
@@ -35,23 +35,8 @@
                 controls.target.set(0, 2, 0);
                 controls.update();
 
-                var ambientLight = new THREE.AmbientLight(0x404040);
-                scene.add(ambientLight);
-
-                var light = new THREE.DirectionalLight(0xffffff, 2);
-                light.position.set(1, 1, 0.5).normalize();
-                light.castShadow = true;
-                var d = 20;
-                light.shadow.camera.left = -d;
-                light.shadow.camera.right = d;
-                light.shadow.camera.top = d;
-                light.shadow.camera.bottom = -d;
-                light.shadow.camera.near = 2;
-                light.shadow.camera.far = 50;
-                light.shadow.mapSize.width = 1024;
-                light.shadow.mapSize.height = 1024;
-                //light.shadowDarkness = 0.65;
-                scene.add(light);
+                scene.add(lighting.ambientLight());
+                scene.add(lighting.directionalLight());
 
                 container.appendChild(renderer.domElement);
 
