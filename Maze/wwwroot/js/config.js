@@ -9,15 +9,20 @@
         "renderer": "app/renderer",
         "scene": "app/scene",
         "stats": "/lib/stats.js/build/stats.min",
+        "stats-glue": "app/stats",
         'three': "/lib/three.js/build/three",
         "three-glue": "three-glue"
     },
     map: {
         "*": {
-            three: "three-glue"
+            three: "three-glue",
+            stats: "stats-glue"
         },
         "three-glue": {
             three: "three"
+        },
+        "stats-glue": {
+            stats: "stats"
         }
     },
     shim: {

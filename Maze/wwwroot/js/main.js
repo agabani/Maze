@@ -1,9 +1,9 @@
 ﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "ammo", "orbitcontrols"],
-    function (THREE, Stats, scene, renderer, camera, clock) {
+    function(THREE, stats, scene, renderer, camera, clock) {
         "use strict";
 
         Ammo().then(function(Ammo) {
-            var container, stats;
+            var container;
             var controls;
             var pos = new THREE.Vector3();
             var quat = new THREE.Quaternion();
@@ -56,7 +56,6 @@
 
                 container.appendChild(renderer.domElement);
 
-                stats = new Stats();
                 container.appendChild(stats.dom);
 
                 window.addEventListener("resize", onWindowResize, false);
