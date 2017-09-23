@@ -1,6 +1,6 @@
 ﻿define("stats-glue",
     ["stats"],
-    function(Stats) {
+    function (Stats) {
         "use strict";
 
         var stats = new Stats();

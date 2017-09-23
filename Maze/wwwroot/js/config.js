@@ -9,9 +9,9 @@
         "renderer": "app/renderer",
         "scene": "app/scene",
         "stats": "/lib/stats.js/build/stats.min",
-        "stats-glue": "app/stats",
+        "stats-glue": "lib/stats-glue",
         "three": "/lib/three.js/build/three",
-        "three-glue": "three-glue",
+        "three-glue": "lib/three-glue",
         "firstpersoncontrols": "controls/FirstPersonControls",
         "orbitcontrols": "controls/OrbitControls"
     },

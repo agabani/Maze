@@ -1,5 +1,5 @@
 ﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls", "ammo", "orbitcontrols"],
-    function(THREE, stats, scene, renderer, camera, clock, raycaster, lighting, controlFactory) {
+    function(THREE, stats, scene, renderer, camera, clock, raycaster, lightingFactory, controlFactory) {
         "use strict";
 
         Ammo().then(function(Ammo) {
@@ -35,8 +35,8 @@
                 controls.target.set(0, 2, 0);
                 controls.update();
 
-                scene.add(lighting.ambientLight());
-                scene.add(lighting.directionalLight());
+                scene.add(lightingFactory.ambientLight());
+                scene.add(lightingFactory.directionalLight());
 
                 container.appendChild(renderer.domElement);
 
