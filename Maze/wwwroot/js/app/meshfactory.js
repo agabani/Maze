@@ -7,6 +7,7 @@
         var wallMaterial = new THREE.MeshPhongMaterial({ color: 0x606060 });
         var groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
         var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
+        var rampMaterial = new THREE.MeshPhongMaterial({ color: 0x606060 });
 
         function Ball(pos, quat, physicsWorld, rigidBodies, scene) {
             var ballMass = 0.7;
@@ -34,6 +35,19 @@
                 scene);
             this.ground.castShadow = true;
             this.ground.receiveShadow = true;
+        }
+
+        function Ramp(pos, quat, physicsWorld, rigidBodies, scene) {
+            var ramp = createParalellepiped(10,
+                1,
+                4,
+                0,
+                pos,
+                quat,
+                rampMaterial,
+                physicsWorld, rigidBodies, scene);
+            ramp.castShadow = true;
+            ramp.receiveShadow = true;
         }
 
         function Wall(options, physicsWorld, rigidBodies, scene) {
@@ -94,6 +108,7 @@
         return {
             Ball: Ball,
             Ground: Ground,
+            Ramp: Ramp,
             Wall: Wall
         };
     });

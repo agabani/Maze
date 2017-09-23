@@ -91,35 +91,16 @@
                 pos.set(0, 0.5, 20.5);
                 new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
 
-                //var ballMass = 3;
-                //var ballRadius = 0.4;
-
-                //var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16),
-                //    new THREE.MeshPhongMaterial({ color: 0x202020 }));
-                //ball.castShadow = true;
-                //ball.receiveShadow = true;
-                //var ballShape = new Ammo.btSphereShape(ballRadius);
-                //ballShape.setMargin(margin);
+  
                 pos.set(5, 10, 0);
                 quat.set(0, 0, 0, 1);
-                //var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat);
-                //ballBody.setFriction(0.5);
-
-                var mesh = new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
+                new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
 
 
                 // ramp
                 pos.set(3, 1, 0);
                 quat.setFromAxisAngle(new THREE.Vector3(0, 0, 1), 30 * Math.PI / 180);
-                var ramp = createParalellepiped(10,
-                    1,
-                    4,
-                    0,
-                    pos,
-                    quat,
-                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
-                ramp.castShadow = true;
-                ramp.receiveShadow = true;
+                new meshfactory.Ramp(pos, quat, physicsWorld, rigidBodies, scene);
             };
 
             function createWall(options) {
