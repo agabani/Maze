@@ -72,33 +72,37 @@
             };
 
             function createObjects() {
-                // ground
                 pos.set(0, - 0.5, 0);
                 quat.set(0, 0, 0, 1);
-                new meshfactory.Ground({ pos: pos, quat: quat }, physicsWorld, rigidBodies, scene);
+                var ground = new meshfactory.Ground({ pos: pos, quat: quat }, physicsWorld, rigidBodies, scene);
+                scene.add(ground.mesh);
 
                 pos.set(-20.5, 0.5, 0);
-                new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
+                var wall1 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
+                scene.add(wall1.mesh);
 
                 pos.set(20.5, 0.5, 0);
-                new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
+                var wall2 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
+                scene.add(wall2.mesh);
 
                 pos.set(0, 0.5, -20.5);
-                new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
+                var wall3 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
+                scene.add(wall3.mesh);
 
                 pos.set(0, 0.5, 20.5);
-                new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
+                var wall4 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
+                scene.add(wall4.mesh);
 
 
                 pos.set(5, 10, 0);
                 quat.set(0, 0, 0, 1);
-                new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
+                var ball = new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
+                scene.add(ball.mesh);
 
-
-                // ramp
                 pos.set(3, 1, 0);
                 quat.setFromAxisAngle(new THREE.Vector3(0, 0, 1), 30 * Math.PI / 180);
-                new meshfactory.Ramp(pos, quat, physicsWorld, rigidBodies, scene);
+                var ramp = new meshfactory.Ramp(pos, quat, physicsWorld, rigidBodies, scene);
+                scene.add(ramp.mesh);
             };
 
             function initInput() {
@@ -154,6 +158,7 @@
                     quat.set(0, 0, 0, 1);
 
                     var mesh = new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
+                    scene.add(mesh.mesh);
 
                     pos.copy(raycaster.ray.direction);
                     pos.multiplyScalar(14);

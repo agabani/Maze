@@ -13,17 +13,17 @@
             var ballMass = 0.7;
             var ballRadius = 0.4;
 
-            this.ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
-            this.ball.castShadow = true;
-            this.ball.receiveShadow = true;
+            this.mesh = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
+            this.mesh.castShadow = true;
+            this.mesh.receiveShadow = true;
             this.ballShape = new Ammo.btSphereShape(ballRadius);
             this.ballShape.setMargin(margin);
-            this.ballBody = createRigidBody(this.ball, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies, scene);
+            this.ballBody = createRigidBody(this.mesh, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies, scene);
             this.ballBody.setFriction(0.5);
         };
 
         function Ground(options, physicsWorld, rigidBodies, scene) {
-            this.ground = createParalellepiped(40,
+            this.mesh = createParalellepiped(40,
                 1,
                 40,
                 0,
@@ -33,12 +33,12 @@
                 physicsWorld,
                 rigidBodies,
                 scene);
-            this.ground.castShadow = true;
-            this.ground.receiveShadow = true;
+            this.mesh.castShadow = true;
+            this.mesh.receiveShadow = true;
         }
 
         function Ramp(pos, quat, physicsWorld, rigidBodies, scene) {
-            var ramp = createParalellepiped(10,
+            this.mesh = createParalellepiped(10,
                 1,
                 4,
                 0,
@@ -46,8 +46,8 @@
                 quat,
                 rampMaterial,
                 physicsWorld, rigidBodies, scene);
-            ramp.castShadow = true;
-            ramp.receiveShadow = true;
+            this.mesh.castShadow = true;
+            this.mesh.receiveShadow = true;
         }
 
         function Wall(options, physicsWorld, rigidBodies, scene) {
@@ -93,7 +93,7 @@
 
             mesh.userData.physicsBody = body;
 
-            scene.add(mesh);
+            //scene.add(mesh);
 
             if (mass > 0) {
                 rigidBodies.push(mesh);
