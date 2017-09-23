@@ -6,7 +6,6 @@
             var container, stats;
             var camera, controls, scene, renderer;
             var clock = new THREE.Clock();
-            var raycaster = new THREE.Raycaster();
             var pos = new THREE.Vector3();
             var quat = new THREE.Quaternion();
 
@@ -15,6 +14,10 @@
             var rigidBodies = [];
             var margin = 0.05;
             var transformAux1 = new Ammo.btTransform();
+
+            var raycaster = new THREE.Raycaster();
+            var clickRequest = false;
+            var mouseCoords = new THREE.Vector2();
 
             function init() {
 
@@ -132,7 +135,17 @@
             }
 
             function initInput() {
-                //
+                window.addEventListener("mousedown",
+                    function(event) {
+                        if (!clickRequest) {
+                            mouseCoords.set(
+                                (event.clientX / window.innerWidth) * 2 - 1,
+                                - (event.clientY / window.innerWidth) - 2 + 1
+                            );
+
+                            clickRequest = true;
+                        }
+                    });
             }
 
             function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
@@ -175,12 +188,37 @@
                 return body;
             }
 
+            function processClick() {
+                if (clickRequest) {
+                    raycaster.setFromCamera(mouseCoords, camera);
+
+                    var ballMass = 3;
+                    var ballRadius = 0.4;
+
+                    var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16),
+                        new THREE.MeshPhongMaterial({ color: 0x202020 }));
+                    ball.castShadow = true;
+                    ball.receiveShadow = true;
+                    var ballShape = new Ammo.btSphereShape(ballRadius);
+                    ballShape.setMargin(margin);
+                    pos.copy(raycaster.ray.direction);
+                    pos.add(raycaster.ray.origin);
+                    quat.set(0, 0, 0, 1);
+                    var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat);
+                    ballBody.setFriction(0.5);
+
+                    pos.copy(raycaster.ray.direction);
+                    pos.multiplyScalar(14);
+                    ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
+
+                    clickRequest = false;
+                }
+            }
 
             function onWindowResize() {
                 camera.aspect = window.innerWidth / window.innerHeight;
                 camera.updateProjectionMatrix();
                 renderer.setSize(window.innerWidth, window.innerHeight);
-                controls.handleResize();
             }
 
             function animate() {
@@ -192,7 +230,7 @@
             function render() {
                 var deltaTime = clock.getDelta();
                 updatePhsyics(deltaTime);
-                controls.update(clock.getDelta());
+                processClick();
                 renderer.render(scene, camera);
             }
 
