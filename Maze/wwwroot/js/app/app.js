@@ -1,7 +1,7 @@
 ﻿define("app",
     [
         "three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls",
-        "sandboxlevel", "ammo"
+        "mazelevel", "ammo"
     ],
     function(THREE,
         stats,

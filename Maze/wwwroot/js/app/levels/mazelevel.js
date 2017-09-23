@@ -12,7 +12,7 @@
         }
 
         function interaction(scene, physicsWorld, rigidBodies, raycaster) {
-            
+
         }
 
         function ground(scene, physicsWorld) {
@@ -25,24 +25,27 @@
 
         function walls(scene, physicsWorld) {
             pos.set(-20.5, 0.5, 0);
-            var wall1 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
-            scene.add(wall1.mesh);
-            physicsWorld.addRigidBody(wall1.body);
+            wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, scene, physicsWorld);
 
             pos.set(20.5, 0.5, 0);
-            var wall2 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
-            scene.add(wall2.mesh);
-            physicsWorld.addRigidBody(wall2.body);
+            wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, scene, physicsWorld);
 
             pos.set(0, 0.5, -20.5);
-            var wall3 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
-            scene.add(wall3.mesh);
-            physicsWorld.addRigidBody(wall3.body);
+            wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, scene, physicsWorld);
 
             pos.set(0, 0.5, 20.5);
-            var wall4 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
-            scene.add(wall4.mesh);
-            physicsWorld.addRigidBody(wall4.body);
+            wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, scene, physicsWorld);
+
+            for (var x = -20.5; x < 20.5; x += 2.75) {
+                pos.set(x, 0.5, 0);
+                wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 38 }, scene, physicsWorld);
+            }
+        }
+
+        function wall(options, scene, physicsWorld) {
+            var wall = new meshfactory.Wall(options);
+            scene.add(wall.mesh);
+            physicsWorld.addRigidBody(wall.body);
         }
 
         return {
