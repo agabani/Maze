@@ -1,4 +1,4 @@
-﻿requirejs(["three", "stats", "ammo", "firstpersoncontrols"],
+﻿requirejs(["three", "stats", "ammo", "orbitcontrols"],
     function(THREE, Stats) {
         "use strict";
 
@@ -35,13 +35,9 @@
 
                 camera.position.set(-7, 5, 8);
 
-                controls = new THREE.FirstPersonControls(camera);
-                controls.movementSpeed = 10;
-                controls.lookSpeed = 0.125;
-                controls.lookVertical = true;
-                controls.constrainVertical = true;
-                controls.verticalMin = 1.1;
-                controls.verticalMax = 2.2;
+                controls = new THREE.OrbitControls(camera);
+                controls.target.set(0, 2, 0);
+                controls.update();
 
                 renderer = new THREE.WebGLRenderer();
                 renderer.setClearColor(0xbfd1e5);
