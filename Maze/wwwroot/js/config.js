@@ -12,8 +12,8 @@
         "stats-glue": "lib/stats-glue",
         "three": "/lib/three.js/build/three",
         "three-glue": "lib/three-glue",
-        "firstpersoncontrols": "controls/FirstPersonControls",
-        "orbitcontrols": "controls/OrbitControls"
+        "firstpersoncontrols": "app/controls/FirstPersonControls",
+        "orbitcontrols": "app/controls/OrbitControls"
     },
     map: {
         "*": {
