@@ -23,14 +23,14 @@
         PhysicsMesh.constructor = PhysicsMesh;
         PhysicsMesh.prototype.margin = 0.05;
 
-        function BallMesh(pos, quat) {
+        function BallMesh(options) {
             var mass = 0.7;
             var radius = 0.4;
 
             var mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, 18, 16), this.material);
             var shape = new Ammo.btSphereShape(radius);
 
-            PhysicsMesh.call(this, mesh, shape, mass, pos, quat);
+            PhysicsMesh.call(this, mesh, shape, mass, options.pos, options.quat);
         }
 
         BallMesh.prototype = Object.create(PhysicsMesh.prototype);
@@ -90,7 +90,8 @@
             var localInertia = new Ammo.btVector3(0, 0, 0);
             shape.calculateLocalInertia(mass, localInertia);
 
-            var rigidBodyConstructionInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
+            var rigidBodyConstructionInfo =
+                new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
             var rigidBody = new Ammo.btRigidBody(rigidBodyConstructionInfo);
 
             mesh.userData.physicsBody = rigidBody;

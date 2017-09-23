@@ -100,7 +100,7 @@
 
                 pos.set(5, 10, 0);
                 quat.set(0, 0, 0, 1);
-                var ball = new meshfactory.Ball(pos, quat);
+                var ball = new meshfactory.Ball({ pos: pos, quat: quat });
                 scene.add(ball.mesh);
                 physicsWorld.addRigidBody(ball.body);
                 rigidBodies.push(ball.mesh);
@@ -164,7 +164,7 @@
                     pos.add(raycaster.ray.origin);
                     quat.set(0, 0, 0, 1);
 
-                    var mesh = new meshfactory.Ball(pos, quat);
+                    var mesh = new meshfactory.Ball({ pos: pos, quat: quat });
                     scene.add(mesh.mesh);
                     physicsWorld.addRigidBody(mesh.body);
                     rigidBodies.push(mesh.mesh);
