@@ -1,6 +1,7 @@
 ﻿var require = {
     paths: {
         "ammo": "/lib/ammo/ammo",
+        "app": "app/app",
         "camera": "app/camera",
         "clock": "app/clock",
         "controls": "app/controls",
