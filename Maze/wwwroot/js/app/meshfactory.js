@@ -77,7 +77,7 @@
         WallMesh.constructor = WallMesh;
         WallMesh.prototype.material = new THREE.MeshPhongMaterial({ color: 0x606060 });
 
-        function createRigidBody(mesh, physicsShape, mass, pos, quat) {
+        function createRigidBody(mesh, shape, mass, pos, quat) {
             mesh.position.copy(pos);
             mesh.quaternion.copy(quat);
 
@@ -88,18 +88,18 @@
             var motionState = new Ammo.btDefaultMotionState(transform);
 
             var localInertia = new Ammo.btVector3(0, 0, 0);
-            physicsShape.calculateLocalInertia(mass, localInertia);
+            shape.calculateLocalInertia(mass, localInertia);
 
-            var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
-            var body = new Ammo.btRigidBody(rbInfo);
+            var rigidBodyConstructionInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, shape, localInertia);
+            var rigidBody = new Ammo.btRigidBody(rigidBodyConstructionInfo);
 
-            mesh.userData.physicsBody = body;
+            mesh.userData.physicsBody = rigidBody;
 
             if (mass > 0) {
-                body.setActivationState(4);
+                rigidBody.setActivationState(4);
             }
 
-            return body;
+            return rigidBody;
         }
 
         return {
