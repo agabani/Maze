@@ -91,7 +91,7 @@
                 pos.set(0, 0.5, 20.5);
                 new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
 
-  
+
                 pos.set(5, 10, 0);
                 quat.set(0, 0, 0, 1);
                 new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
@@ -102,60 +102,6 @@
                 quat.setFromAxisAngle(new THREE.Vector3(0, 0, 1), 30 * Math.PI / 180);
                 new meshfactory.Ramp(pos, quat, physicsWorld, rigidBodies, scene);
             };
-
-            function createWall(options) {
-                var mesh = createParalellepiped(options.sx,
-                    options.sy,
-                    options.sz,
-                    0,
-                    options.pos,
-                    options.quat,
-                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
-                mesh.castShadow = true;
-                mesh.receiveShadow = true;
-
-                return mesh;
-            }
-
-            function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
-                var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), material);
-                var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
-                shape.setMargin(margin);
-
-                createRigidBody(mesh, shape, mass, pos, quat);
-
-                return mesh;
-            }
-
-            function createRigidBody(mesh, physicsShape, mass, pos, quat) {
-                mesh.position.copy(pos);
-                mesh.quaternion.copy(quat);
-
-                var transform = new Ammo.btTransform();
-                transform.setIdentity();
-                transform.setOrigin(new Ammo.btVector3(pos.x, pos.y, pos.z));
-                transform.setRotation(new Ammo.btQuaternion(quat.x, quat.y, quat.z, quat.w));
-                var motionState = new Ammo.btDefaultMotionState(transform);
-
-                var localInertia = new Ammo.btVector3(0, 0, 0);
-                physicsShape.calculateLocalInertia(mass, localInertia);
-
-                var rbInfo = new Ammo.btRigidBodyConstructionInfo(mass, motionState, physicsShape, localInertia);
-                var body = new Ammo.btRigidBody(rbInfo);
-
-                mesh.userData.physicsBody = body;
-
-                scene.add(mesh);
-
-                if (mass > 0) {
-                    rigidBodies.push(mesh);
-
-                    body.setActivationState(4);
-                }
-
-                physicsWorld.addRigidBody(body);
-                return body;
-            }
 
             function initInput() {
                 window.addEventListener("mousedown",
@@ -205,26 +151,14 @@
                 if (clickRequest) {
                     raycaster.setFromCamera(mouseCoords, camera);
 
-
-                    //var ballMass = 0.7;
-                    //var ballRadius = 0.4;
-
-                    //var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
-                    //ball.castShadow = true;
-                    //ball.receiveShadow = true;
-                    //var ballShape = new Ammo.btSphereShape(ballRadius);
-                    //ballShape.setMargin(margin);
                     pos.copy(raycaster.ray.direction);
                     pos.add(raycaster.ray.origin);
                     quat.set(0, 0, 0, 1);
-                    //var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat);
-                    //ballBody.setFriction(0.5);
-
+            
                     var mesh = new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
 
                     pos.copy(raycaster.ray.direction);
                     pos.multiplyScalar(14);
-                    //ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
                     mesh.ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
 
                     clickRequest = false;
