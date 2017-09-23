@@ -6,6 +6,7 @@
         "clock": "app/clock",
         "controls": "app/controls",
         "lighting": "app/lighting",
+        "meshfactory": "app/meshfactory",
         "raycaster": "app/raycaster",
         "renderer": "app/renderer",
         "scene": "app/scene",

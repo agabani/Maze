@@ -1,6 +1,9 @@
 ﻿define("app",
-    ["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls", "ammo"],
-    function(THREE, stats, scene, renderer, camera, clock, raycaster, lightingFactory, controlFactory) {
+    [
+        "three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls", "meshfactory",
+        "ammo"
+    ],
+    function(THREE, stats, scene, renderer, camera, clock, raycaster, lightingFactory, controlFactory, meshfactory) {
         "use strict";
 
         var init, animate;
@@ -74,27 +77,32 @@
                 // ground
                 pos.set(0, - 0.5, 0);
                 quat.set(0, 0, 0, 1);
-                var ground = createParalellepiped(40,
-                    1,
-                    40,
-                    0,
-                    pos,
-                    quat,
-                    new THREE.MeshPhongMaterial({ color: 0xffffff }));
-                ground.castShadow = true;
-                ground.receiveShadow = true;
+//                var ground = createParalellepiped(40,
+//                    1,
+//                    40,
+//                    0,
+//                    pos,
+//                    quat,
+//                    new THREE.MeshPhongMaterial({ color: 0xffffff }));
+//                ground.castShadow = true;
+//                ground.receiveShadow = true;
+                new meshfactory.Ground({ pos: pos, quat: quat }, physicsWorld, rigidBodies, scene);
 
                 pos.set(-20.5, 0.5, 0);
-                createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
+                //createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
+                new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
 
                 pos.set(20.5, 0.5, 0);
-                createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
+                //createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
+                new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
 
                 pos.set(0, 0.5, -20.5);
-                createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
+                //createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
+                new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
 
                 pos.set(0, 0.5, 20.5);
-                createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
+                //createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
+                new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
 
                 var ballMass = 3;
                 var ballRadius = 0.4;
