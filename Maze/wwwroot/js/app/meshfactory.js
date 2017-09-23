@@ -18,8 +18,8 @@
             this.mesh.receiveShadow = true;
             this.ballShape = new Ammo.btSphereShape(ballRadius);
             this.ballShape.setMargin(margin);
-            this.ballBody = createRigidBody(this.mesh, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies);
-            this.ballBody.setFriction(0.5);
+            this.body = createRigidBody(this.mesh, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies);
+            this.body.setFriction(0.5);
         };
 
         function Ground(options, physicsWorld, rigidBodies) {
@@ -73,16 +73,6 @@
             this.body = body;
         };
 
-        function createParalellepiped(sx, sy, sz, mass, pos, quat, material, physicsWorld, rigidBodies) {
-            var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), material);
-            var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
-            shape.setMargin(margin);
-
-            createRigidBody(mesh, shape, mass, pos, quat, physicsWorld, rigidBodies);
-
-            return mesh;
-        }
-
         function createRigidBody(mesh, physicsShape, mass, pos, quat, physicsWorld, rigidBodies) {
             mesh.position.copy(pos);
             mesh.quaternion.copy(quat);
@@ -107,7 +97,6 @@
                 body.setActivationState(4);
             }
 
-            physicsWorld.addRigidBody(body);
             return body;
         }
 
