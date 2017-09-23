@@ -1,19 +1,35 @@
 ﻿define("app",
     [
-        "three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls", "meshfactory",
-        "ammo"
+        "three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls",
+        "sandboxlevel", "ammo"
     ],
-    function(THREE, stats, scene, renderer, camera, clock, raycaster, lightingFactory, controlFactory, meshfactory) {
+    function(THREE,
+        stats,
+        scene,
+        renderer,
+        camera,
+        clock,
+        raycaster,
+        lightingFactory,
+        controlFactory,
+        level) {
         "use strict";
 
         var init, animate;
 
         Ammo().then(function(Ammo) {
+            var physicsWorld;
+
+            var transformAux1 = new Ammo.btTransform();
+            var clickRequest = false;
+            var mouseCoords = new THREE.Vector2();
+
+            var rigidBodies = [];
 
             init = function() {
                 initGraphics();
                 initPhysics();
-                createObjects();
+                level.init(scene, physicsWorld, rigidBodies);
                 initInput();
             };
 
@@ -22,19 +38,6 @@
                 render();
                 stats.update();
             };
-
-            var pos = new THREE.Vector3();
-            var quat = new THREE.Quaternion();
-
-            var physicsWorld;
-            var gravityConstant = -9.8;
-
-            var transformAux1 = new Ammo.btTransform();
-            var clickRequest = false;
-            var mouseCoords = new THREE.Vector2();
-
-            var rigidBodies = [];
-
 
             function initGraphics() {
                 var container = document.body;
@@ -56,6 +59,7 @@
             };
 
             function initPhysics() {
+                var gravityConstant = -9.8;
                 var collisionConfiguration = new Ammo.btSoftBodyRigidBodyCollisionConfiguration();
                 var dispatcher = new Ammo.btCollisionDispatcher(collisionConfiguration);
                 var boardphase = new Ammo.btDbvtBroadphase();
@@ -69,47 +73,6 @@
                         softBodySolver);
                 physicsWorld.setGravity(new Ammo.btVector3(0, gravityConstant, 0));
                 physicsWorld.getWorldInfo().set_m_gravity(new Ammo.btVector3(0, gravityConstant, 0));
-            };
-
-            function createObjects() {
-                pos.set(0, - 0.5, 0);
-                quat.set(0, 0, 0, 1);
-                var ground = new meshfactory.Ground({ pos: pos, quat: quat });
-                scene.add(ground.mesh);
-                physicsWorld.addRigidBody(ground.body);
-
-                pos.set(-20.5, 0.5, 0);
-                var wall1 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
-                scene.add(wall1.mesh);
-                physicsWorld.addRigidBody(wall1.body);
-
-                pos.set(20.5, 0.5, 0);
-                var wall2 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
-                scene.add(wall2.mesh);
-                physicsWorld.addRigidBody(wall2.body);
-
-                pos.set(0, 0.5, -20.5);
-                var wall3 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
-                scene.add(wall3.mesh);
-                physicsWorld.addRigidBody(wall3.body);
-
-                pos.set(0, 0.5, 20.5);
-                var wall4 = new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
-                scene.add(wall4.mesh);
-                physicsWorld.addRigidBody(wall4.body);
-
-                pos.set(5, 10, 0);
-                quat.set(0, 0, 0, 1);
-                var ball = new meshfactory.Ball({ pos: pos, quat: quat });
-                scene.add(ball.mesh);
-                physicsWorld.addRigidBody(ball.body);
-                rigidBodies.push(ball.mesh);
-
-                pos.set(3, 1, 0);
-                quat.setFromAxisAngle(new THREE.Vector3(0, 0, 1), 30 * Math.PI / 180);
-                var ramp = new meshfactory.Ramp(pos, quat, rigidBodies);
-                scene.add(ramp.mesh);
-                physicsWorld.addRigidBody(ramp.body);
             };
 
             function initInput() {
@@ -160,24 +123,12 @@
                 if (clickRequest) {
                     raycaster.setFromCamera(mouseCoords, camera);
 
-                    pos.copy(raycaster.ray.direction);
-                    pos.add(raycaster.ray.origin);
-                    quat.set(0, 0, 0, 1);
-
-                    var mesh = new meshfactory.Ball({ pos: pos, quat: quat });
-                    scene.add(mesh.mesh);
-                    physicsWorld.addRigidBody(mesh.body);
-                    rigidBodies.push(mesh.mesh);
-
-                    pos.copy(raycaster.ray.direction);
-                    pos.multiplyScalar(14);
-                    mesh.body.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
+                    level.interaction(scene, physicsWorld, rigidBodies, raycaster);
 
                     clickRequest = false;
                 }
             }
         });
-
 
         return {
             init: init,

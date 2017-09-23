@@ -9,6 +9,7 @@
         "meshfactory": "app/meshfactory",
         "raycaster": "app/raycaster",
         "renderer": "app/renderer",
+        "sandboxlevel": "app/levels/sandboxlevel",
         "scene": "app/scene",
         "stats": "/lib/stats.js/build/stats.min",
         "stats-glue": "lib/stats-glue",
