@@ -1,5 +1,5 @@
-﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "ammo", "orbitcontrols"],
-    function(THREE, stats, scene, renderer, camera, clock, raycaster, lighting) {
+﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "lighting", "controls", "ammo", "orbitcontrols"],
+    function(THREE, stats, scene, renderer, camera, clock, raycaster, lighting, controlFactory) {
         "use strict";
 
         Ammo().then(function(Ammo) {
@@ -31,7 +31,7 @@
 
                 camera.position.set(-7, 5, 8);
 
-                controls = new THREE.OrbitControls(camera);
+                controls = controlFactory.orbitcontrols(camera);
                 controls.target.set(0, 2, 0);
                 controls.update();
 

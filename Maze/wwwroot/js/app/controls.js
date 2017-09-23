@@ -1,9 +1,13 @@
 ﻿define("controls",
-    ["three", "camera", "orbitcontrols"],
-    function(THREE, camera) {
+    ["three", "orbitcontrols"],
+    function(THREE) {
         "use strict";
 
-        var controls = new THREE.OrbitControls(camera);
+        var orbitcontrols = function(camera) {
+            return new THREE.OrbitControls(camera);
+        };
 
-        return controls;
+        return {
+            orbitcontrols: orbitcontrols
+        };
     });
