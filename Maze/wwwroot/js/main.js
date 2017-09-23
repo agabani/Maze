@@ -109,6 +109,7 @@
             }
 
             function createObjects() {
+                // ground
                 pos.set(0, - 0.5, 0);
                 quat.set(0, 0, 0, 1);
                 var ground = createParalellepiped(40,
@@ -120,10 +121,38 @@
                     new THREE.MeshPhongMaterial({ color: 0xffffff }));
                 ground.castShadow = true;
                 ground.receiveShadow = true;
+
+                // soft
+                var volumeMass = 15;
+
+                var sphereGeometry = new THREE.SphereBufferGeometry(1.5, 40, 25);
+                sphereGeometry.translate(-2, 5, 0);
+                createSoftVolume(sphereGeometry, volumeMass, 250);
+
+                // ramp
+                pos.set(3, 1, 0);
+                quat.setFromAxisAngle(new THREE.Vector3(0, 0, 1), 30 * Math.PI / 180);
+                var ramp = createParalellepiped(10,
+                    1,
+                    4,
+                    0,
+                    pos,
+                    quat,
+                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
+                ramp.castShadow = true;
+                ramp.receiveShadow = true;
             }
 
             function initInput() {
+                //
+            }
 
+            function createSoftVolume(bufferGeometry, mass, pressure) {
+                
+            }
+
+            function processGeometry(bufferGeometry) {
+                //
             }
 
             function createParalellepiped(sx, sy, sz, mass, pos, quat, material) {
