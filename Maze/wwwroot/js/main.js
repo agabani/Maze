@@ -1,5 +1,5 @@
-﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "ammo", "orbitcontrols"],
-    function(THREE, stats, scene, renderer, camera, clock) {
+﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "raycaster", "ammo", "orbitcontrols"],
+    function (THREE, stats, scene, renderer, camera, clock, raycaster) {
         "use strict";
 
         Ammo().then(function(Ammo) {
@@ -14,7 +14,6 @@
             var margin = 0.05;
             var transformAux1 = new Ammo.btTransform();
 
-            var raycaster = new THREE.Raycaster();
             var clickRequest = false;
             var mouseCoords = new THREE.Vector2();
             var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
