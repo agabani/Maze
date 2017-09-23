@@ -1,7 +1,7 @@
 ﻿define("meshfactory",
     ["three", "ammo"],
     function(THREE) {
-        "use static";
+        "use strict";
         var margin = 0.05;
 
         var wallMaterial = new THREE.MeshPhongMaterial({ color: 0x606060 });
@@ -9,18 +9,37 @@
         var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
         var rampMaterial = new THREE.MeshPhongMaterial({ color: 0x606060 });
 
-        function Ball(pos, quat) {
-            var ballMass = 0.7;
-            var ballRadius = 0.4;
+        function Mesh(mesh, shape, body) {
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
 
-            this.mesh = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
-            this.mesh.castShadow = true;
-            this.mesh.receiveShadow = true;
-            this.ballShape = new Ammo.btSphereShape(ballRadius);
-            this.ballShape.setMargin(margin);
-            this.body = createRigidBody(this.mesh, this.ballShape, ballMass, pos, quat);
-            this.body.setFriction(0.5);
-        };
+            this.mesh = mesh;
+            this.shape = shape;
+            this.body = body;
+        }
+
+        function PhysicsMesh(mesh, shape, mass, pos, quat) {
+            shape.setMargin(margin);
+            var body = createRigidBody(mesh, shape, mass, pos, quat);
+
+            Mesh.call(this, mesh, shape, body);
+        }
+
+        PhysicsMesh.prototype = Object.create(Mesh.prototype);
+        PhysicsMesh.constructor = PhysicsMesh;
+
+        function BallMesh(pos, quat) {
+            var mass = 0.7;
+            var radius = 0.4;
+
+            var mesh = new THREE.Mesh(new THREE.SphereGeometry(radius, 18, 16), ballMaterial);
+            var shape = new Ammo.btSphereShape(radius);
+
+            PhysicsMesh.call(this, mesh, shape, mass, pos, quat);
+        }
+
+        BallMesh.prototype = Object.create(PhysicsMesh.prototype);
+        BallMesh.constructor = BallMesh;
 
         function Ground(options) {
             var sx = 40, sy = 1, sz = 40, mass = 0;
@@ -99,7 +118,7 @@
         }
 
         return {
-            Ball: Ball,
+            Ball: BallMesh,
             Ground: Ground,
             Ramp: Ramp,
             Wall: Wall
