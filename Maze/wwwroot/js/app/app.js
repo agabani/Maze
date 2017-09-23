@@ -32,10 +32,8 @@
             var transformAux1 = new Ammo.btTransform();
             var clickRequest = false;
             var mouseCoords = new THREE.Vector2();
-            var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
 
             var rigidBodies = [];
-            var margin = 0.05;
 
 
             function initGraphics() {
@@ -154,7 +152,7 @@
                     pos.copy(raycaster.ray.direction);
                     pos.add(raycaster.ray.origin);
                     quat.set(0, 0, 0, 1);
-            
+
                     var mesh = new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
 
                     pos.copy(raycaster.ray.direction);
