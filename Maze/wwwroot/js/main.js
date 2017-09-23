@@ -87,6 +87,8 @@
                         solver,
                         collisionConfiguration,
                         softBodySolver);
+                physicsWorld.setGravity(new Ammo.btVector3(0, gravityConstant, 0));
+                physicsWorld.getWorldInfo().set_m_gravity(new Ammo.btVector3(0, gravityConstant, 0));
             }
 
             function createObjects() {
