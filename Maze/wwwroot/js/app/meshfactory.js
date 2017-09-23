@@ -6,9 +6,19 @@
 
         var wallMaterial = new THREE.MeshPhongMaterial({ color: 0x606060 });
         var groundMaterial = new THREE.MeshPhongMaterial({ color: 0xffffff });
+        var ballMaterial = new THREE.MeshPhongMaterial({ color: 0x202020 });
 
-        function Ball() {
+        function Ball(pos, quat, physicsWorld, rigidBodies, scene) {
+            var ballMass = 0.7;
+            var ballRadius = 0.4;
 
+            this.ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
+            this.ball.castShadow = true;
+            this.ball.receiveShadow = true;
+            this.ballShape = new Ammo.btSphereShape(ballRadius);
+            this.ballShape.setMargin(margin);
+            this.ballBody = createRigidBody(this.ball, this.ballShape, ballMass, pos, quat, physicsWorld, rigidBodies, scene);
+            this.ballBody.setFriction(0.5);
         };
 
         function Ground(options, physicsWorld, rigidBodies, scene) {

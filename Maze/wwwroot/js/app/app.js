@@ -77,31 +77,18 @@
                 // ground
                 pos.set(0, - 0.5, 0);
                 quat.set(0, 0, 0, 1);
-//                var ground = createParalellepiped(40,
-//                    1,
-//                    40,
-//                    0,
-//                    pos,
-//                    quat,
-//                    new THREE.MeshPhongMaterial({ color: 0xffffff }));
-//                ground.castShadow = true;
-//                ground.receiveShadow = true;
                 new meshfactory.Ground({ pos: pos, quat: quat }, physicsWorld, rigidBodies, scene);
 
                 pos.set(-20.5, 0.5, 0);
-                //createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
                 new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
 
                 pos.set(20.5, 0.5, 0);
-                //createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
                 new meshfactory.Wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, physicsWorld, rigidBodies, scene);
 
                 pos.set(0, 0.5, -20.5);
-                //createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
                 new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
 
                 pos.set(0, 0.5, 20.5);
-                //createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
                 new meshfactory.Wall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 }, physicsWorld, rigidBodies, scene);
 
                 var ballMass = 3;
@@ -235,23 +222,26 @@
                     raycaster.setFromCamera(mouseCoords, camera);
 
 
-                    var ballMass = 0.7;
-                    var ballRadius = 0.4;
+                    //var ballMass = 0.7;
+                    //var ballRadius = 0.4;
 
-                    var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
-                    ball.castShadow = true;
-                    ball.receiveShadow = true;
-                    var ballShape = new Ammo.btSphereShape(ballRadius);
-                    ballShape.setMargin(margin);
+                    //var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16), ballMaterial);
+                    //ball.castShadow = true;
+                    //ball.receiveShadow = true;
+                    //var ballShape = new Ammo.btSphereShape(ballRadius);
+                    //ballShape.setMargin(margin);
                     pos.copy(raycaster.ray.direction);
                     pos.add(raycaster.ray.origin);
                     quat.set(0, 0, 0, 1);
-                    var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat);
-                    ballBody.setFriction(0.5);
+                    //var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat);
+                    //ballBody.setFriction(0.5);
+
+                    var mesh = new meshfactory.Ball(pos, quat, physicsWorld, rigidBodies, scene);
 
                     pos.copy(raycaster.ray.direction);
                     pos.multiplyScalar(14);
-                    ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
+                    //ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
+                    mesh.ballBody.setLinearVelocity(new Ammo.btVector3(pos.x, pos.y, pos.z));
 
                     clickRequest = false;
                 }
