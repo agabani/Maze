@@ -51,7 +51,7 @@
                 camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.2, 2000);
 
                 scene = new THREE.Scene();
-                scene.background = new THREE.Color(0xffffff);
+                scene.background = new THREE.Color(0xbfd1e5);
                 scene.fog = new THREE.FogExp2(0xffffff, 0.00015);
 
                 camera.position.set(-7, 5, 8);
@@ -65,8 +65,10 @@
                 controls.verticalMax = 2.2;
 
                 renderer = new THREE.WebGLRenderer();
+                renderer.setClearColor(0xbfd1e5);
                 renderer.setPixelRatio(window.devicePixelRatio);
                 renderer.setSize(window.innerWidth, window.innerHeight);
+                renderer.shadowMap.enabled = true;
 
                 var ambientLight = new THREE.AmbientLight(0x404040);
                 scene.add(ambientLight);
