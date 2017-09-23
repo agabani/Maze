@@ -23,30 +23,37 @@
         };
 
         function Ground(options, physicsWorld, rigidBodies) {
-            this.mesh = createParalellepiped(40,
-                1,
-                40,
-                0,
-                options.pos,
-                options.quat,
-                groundMaterial,
-                physicsWorld,
-                rigidBodies);
-            this.mesh.castShadow = true;
-            this.mesh.receiveShadow = true;
+            var sx = 40, sy = 1, sz = 40, mass = 0;
+
+            var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), groundMaterial);
+            var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
+            shape.setMargin(margin);
+
+            var body = createRigidBody(mesh, shape, mass, options.pos, options.quat, physicsWorld, rigidBodies);
+
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+
+            this.mesh = mesh;
+            this.shape = shape;
+            this.body = body;
         }
 
         function Ramp(pos, quat, physicsWorld, rigidBodies) {
-            this.mesh = createParalellepiped(10,
-                1,
-                4,
-                0,
-                pos,
-                quat,
-                rampMaterial,
-                physicsWorld, rigidBodies);
-            this.mesh.castShadow = true;
-            this.mesh.receiveShadow = true;
+            var sx = 10, sy = 1, sz = 4, mass = 0;
+
+            var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), rampMaterial);
+            var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
+            shape.setMargin(margin);
+
+            var body = createRigidBody(mesh, shape, mass, pos, quat, physicsWorld, rigidBodies);
+
+            mesh.castShadow = true;
+            mesh.receiveShadow = true;
+
+            this.mesh = mesh;
+            this.shape = shape;
+            this.body = body;
         }
 
         function Wall(options, physicsWorld, rigidBodies) {
