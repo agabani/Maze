@@ -91,6 +91,7 @@
                 physicsWorld.getWorldInfo().set_m_gravity(new Ammo.btVector3(0, gravityConstant, 0));
             }
 
+
             function createObjects() {
                 // ground
                 pos.set(0, - 0.5, 0);
@@ -105,57 +106,17 @@
                 ground.castShadow = true;
                 ground.receiveShadow = true;
 
-                // wall 1
-                pos.set(-20, 1, 0);
-                quat.set(0, 0, 0, 1);
-                var wall1 = createParalellepiped(1,
-                    1,
-                    40,
-                    0,
-                    pos,
-                    quat,
-                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
-                wall1.castShadow = true;
-                wall1.receiveShadow = true;
+                pos.set(-20.5, 0.5, 0);
+                createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
 
-                // wall 2
-                pos.set(20, 1, 0);
-                quat.set(0, 0, 0, 1);
-                var wall2 = createParalellepiped(1,
-                    1,
-                    40,
-                    0,
-                    pos,
-                    quat,
-                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
-                wall2.castShadow = true;
-                wall2.receiveShadow = true;
+                pos.set(20.5, 0.5, 0);
+                createWall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 });
 
-                // wall 3
-                pos.set(0, 1, -20);
-                quat.set(0, 0, 0, 1);
-                var wall3 = createParalellepiped(40,
-                    1,
-                    1,
-                    0,
-                    pos,
-                    quat,
-                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
-                wall3.castShadow = true;
-                wall3.receiveShadow = true;
+                pos.set(0, 0.5, -20.5);
+                createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
 
-                // wall 4
-                pos.set(0, 1, 20);
-                quat.set(0, 0, 0, 1);
-                var wall4 = createParalellepiped(40,
-                    1,
-                    1,
-                    0,
-                    pos,
-                    quat,
-                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
-                wall4.castShadow = true;
-                wall4.receiveShadow = true;
+                pos.set(0, 0.5, 20.5);
+                createWall({ pos: pos, quat: quat, sx: 40, sy: 1, sz: 1 });
 
                 var ballMass = 3;
                 var ballRadius = 0.4;
@@ -183,6 +144,20 @@
                     new THREE.MeshPhongMaterial({ color: 0x606060 }));
                 ramp.castShadow = true;
                 ramp.receiveShadow = true;
+            }
+
+            function createWall(options) {
+                var mesh = createParalellepiped(options.sx,
+                    options.sy,
+                    options.sz,
+                    0,
+                    options.pos,
+                    options.quat,
+                    new THREE.MeshPhongMaterial({ color: 0x606060 }));
+                mesh.castShadow = true;
+                mesh.receiveShadow = true;
+
+                return mesh;
             }
 
             function initInput() {
@@ -242,6 +217,8 @@
             function processClick() {
                 if (clickRequest) {
                     raycaster.setFromCamera(mouseCoords, camera);
+
+                    
 
                     var ballMass = 0.7;
                     var ballRadius = 0.4;
