@@ -1,8 +1,12 @@
 ﻿var require = {
     paths: {
         "ammo": "/lib/ammo/ammo",
+        "camera": "app/camera",
+        "controls": "app/controls",
         "firstpersoncontrols": "controls/FirstPersonControls",
         "orbitcontrols": "controls/OrbitControls",
+        "renderer": "app/renderer",
+        "scene": "app/scene",
         "stats": "/lib/stats.js/build/stats.min",
         'three': "/lib/three.js/build/three",
         "three-glue": "three-glue"

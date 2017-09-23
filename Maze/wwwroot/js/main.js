@@ -1,10 +1,10 @@
-﻿requirejs(["three", "stats", "ammo", "orbitcontrols"],
-    function(THREE, Stats) {
+﻿requirejs(["three", "stats", "scene", "renderer", "camera", "ammo", "orbitcontrols"],
+    function (THREE, Stats, scene, renderer, camera) {
         "use strict";
 
         Ammo().then(function(Ammo) {
             var container, stats;
-            var camera, controls, scene, renderer;
+            var controls;
             var clock = new THREE.Clock();
             var pos = new THREE.Vector3();
             var quat = new THREE.Quaternion();
@@ -31,23 +31,11 @@
             function initGraphics() {
                 container = document.body;
 
-                camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 0.2, 2000);
-
-                scene = new THREE.Scene();
-                scene.background = new THREE.Color(0xbfd1e5);
-                scene.fog = new THREE.FogExp2(0xffffff, 0.00015);
-
                 camera.position.set(-7, 5, 8);
 
                 controls = new THREE.OrbitControls(camera);
                 controls.target.set(0, 2, 0);
                 controls.update();
-
-                renderer = new THREE.WebGLRenderer();
-                renderer.setClearColor(0xbfd1e5);
-                renderer.setPixelRatio(window.devicePixelRatio);
-                renderer.setSize(window.innerWidth, window.innerHeight);
-                renderer.shadowMap.enabled = true;
 
                 var ambientLight = new THREE.AmbientLight(0x404040);
                 scene.add(ambientLight);
@@ -218,7 +206,6 @@
                 if (clickRequest) {
                     raycaster.setFromCamera(mouseCoords, camera);
 
-                    
 
                     var ballMass = 0.7;
                     var ballRadius = 0.4;
