@@ -2,6 +2,7 @@
     paths: {
         "ammo": "/lib/ammo/ammo",
         "camera": "app/camera",
+        "clock": "app/clock",
         "controls": "app/controls",
         "firstpersoncontrols": "controls/FirstPersonControls",
         "orbitcontrols": "controls/OrbitControls",

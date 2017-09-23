@@ -1,11 +1,10 @@
-﻿requirejs(["three", "stats", "scene", "renderer", "camera", "ammo", "orbitcontrols"],
-    function (THREE, Stats, scene, renderer, camera) {
+﻿requirejs(["three", "stats", "scene", "renderer", "camera", "clock", "ammo", "orbitcontrols"],
+    function (THREE, Stats, scene, renderer, camera, clock) {
         "use strict";
 
         Ammo().then(function(Ammo) {
             var container, stats;
             var controls;
-            var clock = new THREE.Clock();
             var pos = new THREE.Vector3();
             var quat = new THREE.Quaternion();
 
