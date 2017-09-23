@@ -127,13 +127,27 @@
                 // soft
                 var volumeMass = 15;
 
-                var sphereGeometry = new THREE.SphereBufferGeometry(1.5, 40, 25);
-                sphereGeometry.translate(-2, 5, 0);
-                createSoftVolume(sphereGeometry, volumeMass, 250);
+//                var sphereGeometry = new THREE.SphereBufferGeometry(1.5, 40, 25);
+//                sphereGeometry.translate(-2, 5, 0);
+//                createSoftVolume(sphereGeometry, volumeMass, 250);
+//
+//                var boxGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.BoxGeometry(1, 1, 5, 4, 4, 20));
+//                boxGeometry.translate(-2, 5, 0);
+//                createSoftVolume(boxGeometry, volumeMass, 120);
 
-                var boxGeometry = new THREE.BufferGeometry().fromGeometry(new THREE.BoxGeometry(1, 1, 5, 4, 4, 20));
-                boxGeometry.translate(-2, 5, 0);
-                createSoftVolume(boxGeometry, volumeMass, 120);
+                var ballMass = 3;
+                var ballRadius = 0.4;
+
+                var ball = new THREE.Mesh(new THREE.SphereGeometry(ballRadius, 18, 16),
+                    new THREE.MeshPhongMaterial({ color: 0x202020 }));
+                ball.castShadow = true;
+                ball.receiveShadow = true;
+                var ballShape = new Ammo.btSphereShape(ballRadius);
+                ballShape.setMargin(margin);
+                pos.set(5, 10, 0);
+                quat.set(0, 0, 0, 1);
+                var ballBody = createRigidBody(ball, ballShape, ballMass, pos, quat);
+                ballBody.setFriction(0.5);
 
                 // ramp
                 pos.set(3, 1, 0);
