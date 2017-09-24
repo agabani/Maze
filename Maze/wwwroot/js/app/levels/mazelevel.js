@@ -16,11 +16,12 @@
         var keyCode;
 
         var mode = "manual";
+        var solution;
 
         function init(options) {
             camera = options.camera;
 
-            download(function(data) {
+            downloadMaze(function(data) {
                 maze = data;
                 map = data.map;
 
@@ -41,12 +42,34 @@
             handleCamera();
         }
 
-        function download(success) {
+        function downloadMaze(success) {
             $.ajax({
                 async: true,
                 method: "GET",
                 success: success,
                 url: "/Maze/Generate"
+            });
+        }
+
+        function downloadSolution(success) {
+            var currentLocation = player.mesh.position;
+
+            function translate(value, limit) {
+                return value + (limit / 2) - 0.5;
+            }
+
+            $.ajax({
+                async: true,
+                data: {
+                    width: maze.width,
+                    height: maze.height,
+                    seed: maze.seed,
+                    x: translate(currentLocation.x, map[0].length),
+                    z: translate(currentLocation.z, map.length)
+                },
+                method: "GET",
+                success: success,
+                url: "/Maze/Solve"
             });
         }
 
@@ -93,11 +116,14 @@
 
         function initGui() {
             var controller = {
-                manual: function () {
+                manual: function() {
                     mode = "manual";
                 },
-                automatic: function () {
+                automatic: function() {
                     mode = "automatic";
+                    downloadSolution(function(data) {
+                        solution = data;
+                    });
                 }
             };
 
@@ -142,6 +168,9 @@
                 }
 
                 keyRequest = false;
+            }
+            if (mode === "automatic") {
+
             }
         }
 
