@@ -3,6 +3,8 @@
     function(THREE, meshfactory) {
         "use strict";
 
+        var player;
+
         var pos = new THREE.Vector3();
         var quat = new THREE.Quaternion();
 
@@ -10,10 +12,36 @@
             ground(scene, physicsWorld);
             walls(scene, physicsWorld);
             ball(scene, physicsWorld, rigidBodies);
+            initInput();
         }
 
         function interaction(scene, physicsWorld, rigidBodies, raycaster) {
 
+        }
+
+        function initInput() {
+            window.addEventListener("keydown",
+                function (event) {
+                    var speed = 5;
+
+                    var linearVelocity = player.body.getLinearVelocity();
+
+                    switch (event.keyCode) {
+                        case 65: // a
+                            player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
+                        break;
+                        case 68: // d
+                            player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
+                        break;
+                        case 87: // w
+                            player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
+                        break;
+                        case 83: // s
+                            player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
+                        break;
+                    }
+                },
+                false);
         }
 
         function ball(scene, physicsWorld, rigidBodies) {
@@ -23,6 +51,8 @@
             scene.add(ball.mesh);
             physicsWorld.addRigidBody(ball.body);
             rigidBodies.push(ball.mesh);
+
+            player = ball;
         }
 
         function ground(scene, physicsWorld) {
