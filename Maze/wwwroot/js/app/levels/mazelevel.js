@@ -1,10 +1,11 @@
 ﻿define("mazelevel",
-    ["three", "meshfactory", "jquery"],
-    function(THREE, meshfactory, $) {
+    ["three", "meshfactory", "jquery", "datgui"],
+    function(THREE, meshfactory, $, dat) {
         "use strict";
 
         var player;
         var camera;
+        var gui;
 
         var pos = new THREE.Vector3();
         var quat = new THREE.Quaternion();
@@ -17,13 +18,14 @@
         function init(options) {
             camera = options.camera;
 
-            download(function (data) {
+            download(function(data) {
                 maze = data;
                 map = data.map;
 
                 ground(options.scene, options.physicsWorld);
                 walls(map, options.scene, options.physicsWorld);
                 ball(options.scene, options.physicsWorld, options.rigidBodies);
+                initGui();
                 initInput();
             });
         }
@@ -85,6 +87,22 @@
             rigidBodies.push(ball.mesh);
 
             player = ball;
+        }
+
+        function initGui() {
+            var controller = {
+                manual: function() {
+                },
+                automatic: function() {
+                }
+            };
+
+            gui = new dat.GUI();
+
+            var h = gui.addFolder("Solve");
+
+            h.add(controller, "manual").name("manual");
+            h.add(controller, "automatic").name("automatic");
         }
 
         function initInput() {
