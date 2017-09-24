@@ -40,5 +40,10 @@ namespace Maze.Application.Models
         {
             return _graph.ContainsKey(coordinates);
         }
+
+        public int Population()
+        {
+            return _graph.Count;
+        }
     }
 }

@@ -18,7 +18,7 @@ namespace Maze.Application.Algorithms
             graph.Add(initialCell);
             stack.Push(initialCell);
 
-            while (stack.Peek() != initialCell && UnvisitedNeighbours(graph, initialCell, width, height).Any())
+            do
             {
                 var currentCell = stack.Peek();
 
@@ -27,15 +27,18 @@ namespace Maze.Application.Algorithms
                 if (unvisitedNeighbours.Any())
                 {
                     var neighbour = new MazeCell(unvisitedNeighbours.ElementAt(random.Next(unvisitedNeighbours.Count)));
+
                     currentCell.Add(neighbour);
                     neighbour.Add(currentCell);
+
+                    graph.Add(neighbour);
                     stack.Push(neighbour);
                 }
                 else
                 {
                     stack.Pop();
                 }
-            }
+            } while (stack.Any());
 
             return graph;
         }
