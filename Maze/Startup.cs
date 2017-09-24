@@ -22,6 +22,7 @@ namespace Maze
             services.AddMvc();
 
             services.AddSingleton<MazeGenerator>();
+            services.AddSingleton<MazeSolver>();
             services.AddSingleton<RecursiveBacktracking>();
         }
 
