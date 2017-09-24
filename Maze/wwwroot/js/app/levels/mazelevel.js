@@ -9,7 +9,7 @@
         var pos = new THREE.Vector3();
         var quat = new THREE.Quaternion();
 
-        var map;
+        var maze, map;
 
         var keyRequest = false;
         var keyCode;
@@ -17,8 +17,9 @@
         function init(options) {
             camera = options.camera;
 
-            download(function(data) {
-                map = data;
+            download(function (data) {
+                maze = data;
+                map = data.map;
 
                 ground(options.scene, options.physicsWorld);
                 walls(map, options.scene, options.physicsWorld);

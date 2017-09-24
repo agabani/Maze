@@ -12,7 +12,7 @@ namespace Maze.Application.Services
             _algorithm = algorithm;
         }
 
-        public string[][] Generate(int width, int height, int seed)
+        public Models.Maze Generate(int width, int height, int seed)
         {
             var graph = _algorithm.ProcedurallyGenerate(width, height, seed);
 
@@ -22,7 +22,7 @@ namespace Maze.Application.Services
             foreach (var to in from.Traversable)
                 canvas.Connect(from.Coordinates, to.Coordinates);
 
-            return canvas.Map;
+            return new Models.Maze(canvas.Map, width, height, seed);
         }
     }
 }
