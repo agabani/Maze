@@ -58,19 +58,14 @@
                 return Math.floor(value + (limit / 2) - 0.5);
             }
 
-            var x = translate(currentLocation.x, map[0].length);
-            var z = translate(currentLocation.z, map.length);
-            console.log(x);
-            console.log(z);
-
             $.ajax({
                 async: true,
                 data: {
                     width: maze.width,
                     height: maze.height,
                     seed: maze.seed,
-                    x: x,
-                    z: z
+                    x: translate(currentLocation.x, map[0].length),
+                    z: translate(currentLocation.z, map.length)
                 },
                 method: "GET",
                 success: success,
@@ -128,6 +123,7 @@
                     mode = "automatic";
                     downloadSolution(function(data) {
                         solution = data;
+                        console.log(solution);
                     });
                 }
             };

@@ -39,7 +39,12 @@ namespace Maze.Application.Services
                 dijkstraGraph.Nodes.Single(node => node.Id == Convert(new CartesianCoordinates(width - 1, 0))));
 
             return shortestPath.Segments
-                .Select(segment => Convert(segment.Destination.Id));
+                .Select(segment => Convert(segment.Destination.Id))
+                .Select(coordinates =>
+                {
+                    var translate = MazeCanvas.Translate(coordinates);
+                    return new CartesianCoordinates(translate.x, translate.z);
+                });
         }
 
         private static string Convert(CartesianCoordinates coordinates)

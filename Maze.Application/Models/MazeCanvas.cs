@@ -57,7 +57,7 @@ namespace Maze.Application.Models
             Map[z][x] = value;
         }
 
-        private static (int x, int z) Translate(CartesianCoordinates coordinates)
+        public static (int x, int z) Translate(CartesianCoordinates coordinates)
         {
             return Translate(coordinates.X, coordinates.Z);
         }
