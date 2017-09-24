@@ -1,4 +1,5 @@
-﻿using Maze.Application.Services;
+﻿using System;
+using Maze.Application.Services;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maze.Controllers
@@ -18,31 +19,9 @@ namespace Maze.Controllers
             return View();
         }
 
-        public IActionResult Generate(int width = 8, int height = 8, int seed = 0)
+        public IActionResult Generate(int width = 8, int height = 8, int? seed = null)
         {
-            var strings = new[]
-            {
-                new[] {"w", "w", "w", " ", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"},
-                new[] {"w", " ", "w", " ", " ", " ", "w", " ", " ", " ", "w", " ", " ", " ", " ", " ", "w"},
-                new[] {"w", " ", "w", "w", "w", " ", "w", " ", "w", " ", "w", "w", "w", " ", "w", " ", "w"},
-                new[] {"w", " ", "w", " ", "w", " ", "w", " ", "w", " ", " ", " ", "w", " ", "w", " ", "w"},
-                new[] {"w", " ", "w", " ", "w", " ", "w", " ", "w", "w", "w", " ", "w", " ", "w", "w", "w"},
-                new[] {"w", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w", " ", "w", " ", " ", " ", "w"},
-                new[] {"w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w"},
-                new[] {"w", " ", "w", " ", "w", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w"},
-                new[] {"w", "w", "w", " ", "w", "w", "w", "w", "w", "w", "w", " ", "w", " ", "w", " ", "w"},
-                new[] {"w", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w", " ", "w", " ", " ", " ", "w"},
-                new[] {"w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", " ", "w"},
-                new[] {"w", " ", "w", " ", "w", " ", "w", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w"},
-                new[] {"w", "w", "w", " ", "w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w"},
-                new[] {"w", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w", " ", " ", " ", "w"},
-                new[] {"w", "w", "w", " ", "w", "w", "w", "w", "w", "w", "w", " ", "w", "w", "w", " ", "w"},
-                new[] {"w", " ", " ", " ", " ", " ", "w", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"},
-                new[] {"w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", " ", "w", "w", "w"}
-            };
-
-            //return Ok(strings);
-            return Ok(_generator.Generate(width, height, seed));
+            return Ok(_generator.Generate(width, height, seed ?? Guid.NewGuid().GetHashCode()));
         }
     }
 }
