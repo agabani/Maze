@@ -11,6 +11,8 @@
 
         var map;
 
+        var keyRequest = false;
+        var keyCode;
 
         function init(options) {
             camera = options.camera;
@@ -30,12 +32,8 @@
         }
 
         function render() {
-            if (player !== undefined) {
-                var playerPosition = player.mesh.position;
-                camera.position.set(playerPosition.x + 2, 15, playerPosition.z + 6);
-
-                camera.lookAt(player.mesh.position);
-            }
+            handleKeyboard();
+            handleCamera();
         }
 
         function download(success) {
@@ -45,31 +43,6 @@
                 success: success,
                 url: "/Maze/Generate"
             });
-        }
-
-        function initInput() {
-            window.addEventListener("keydown",
-                function(event) {
-                    var speed = 5;
-
-                    var linearVelocity = player.body.getLinearVelocity();
-
-                    switch (event.keyCode) {
-                    case 65: // a
-                        player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
-                        break;
-                    case 68: // d
-                        player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
-                        break;
-                    case 87: // w
-                        player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
-                        break;
-                    case 83: // s
-                        player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
-                        break;
-                    }
-                },
-                false);
         }
 
         function ground(scene, physicsWorld) {
@@ -111,6 +84,51 @@
             rigidBodies.push(ball.mesh);
 
             player = ball;
+        }
+
+        function initInput() {
+            window.addEventListener("keydown",
+                function(event) {
+                    if (keyRequest === false) {
+                        keyRequest = true;
+                        keyCode = event.keyCode;
+                    }
+                },
+                false);
+        }
+
+        function handleKeyboard() {
+            if (keyRequest === true) {
+                var speed = 5;
+
+                var linearVelocity = player.body.getLinearVelocity();
+
+                switch (keyCode) {
+                case 37: // left arrow
+                    player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
+                    break;
+                case 39: // right arrow
+                    player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
+                    break;
+                case 38: // up arrow
+                    player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
+                    break;
+                case 40: // down arrow
+                    player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
+                    break;
+                }
+
+                keyRequest = false;
+            }
+        }
+
+        function handleCamera() {
+            if (player !== undefined) {
+                var playerPosition = player.mesh.position;
+                camera.position.set(playerPosition.x + 2, 15, playerPosition.z + 6);
+
+                camera.lookAt(player.mesh.position);
+            }
         }
 
         return {
