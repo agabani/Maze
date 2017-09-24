@@ -9,10 +9,20 @@
         function init(scene, physicsWorld, rigidBodies) {
             ground(scene, physicsWorld);
             walls(scene, physicsWorld);
+            ball(scene, physicsWorld, rigidBodies);
         }
 
         function interaction(scene, physicsWorld, rigidBodies, raycaster) {
 
+        }
+
+        function ball(scene, physicsWorld, rigidBodies) {
+            pos.set(0, 3.5, 0);
+            quat.set(0, 0, 0, 1);
+            var ball = new meshfactory.Ball({ pos: pos, quat: quat });
+            scene.add(ball.mesh);
+            physicsWorld.addRigidBody(ball.body);
+            rigidBodies.push(ball.mesh);
         }
 
         function ground(scene, physicsWorld) {
@@ -24,6 +34,7 @@
         }
 
         function walls(scene, physicsWorld) {
+            quat.set(0, 0, 0, 1);
             pos.set(-20.5, 0.5, 0);
             wall({ pos: pos, quat: quat, sx: 1, sy: 1, sz: 40 }, scene, physicsWorld);
 
