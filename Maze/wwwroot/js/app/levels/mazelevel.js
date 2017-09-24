@@ -15,6 +15,8 @@
         var keyRequest = false;
         var keyCode;
 
+        var mode = "manual";
+
         function init(options) {
             camera = options.camera;
 
@@ -91,9 +93,11 @@
 
         function initGui() {
             var controller = {
-                manual: function() {
+                manual: function () {
+                    mode = "manual";
                 },
-                automatic: function() {
+                automatic: function () {
+                    mode = "automatic";
                 }
             };
 
@@ -117,7 +121,7 @@
         }
 
         function handleKeyboard() {
-            if (keyRequest === true) {
+            if (mode === "manual" && keyRequest === true) {
                 var speed = 5;
 
                 var linearVelocity = player.body.getLinearVelocity();
