@@ -1,10 +1,13 @@
-﻿namespace Maze.Application.Services
+﻿using Maze.Application.Algorithms;
+using Maze.Application.Models;
+
+namespace Maze.Application.Services
 {
     public class MazeGenerator
     {
-        public string[][] Generate(int width, int height, int? seed = null)
+        public string[][] Generate2(int width, int height, int? seed = null)
         {
-            var maze = new Models.MazeCanvas(width, height);
+            var maze = new MazeCanvas(width, height);
 
             maze.Connect(new CartesianCoordinates(1, 0), new CartesianCoordinates(2, 0));
             maze.Connect(new CartesianCoordinates(2, 0), new CartesianCoordinates(2, 2));
@@ -74,6 +77,19 @@
             maze.Connect(new CartesianCoordinates(1, 2), new CartesianCoordinates(1, 1));
 
             return maze.Map;
+        }
+
+        public string[][] Generate(int width, int height, int seed)
+        {
+            var graph = new RecursiveBacktracking().ProcedurallyGenerate(width, height, seed);
+
+            var canvas = new MazeCanvas(width, height);
+
+            foreach (var from in graph.Population())
+            foreach (var to in from.Traversable)
+                canvas.Connect(from.Coordinates, to.Coordinates);
+
+            return canvas.Map;
         }
     }
 }

@@ -41,11 +41,16 @@
         }
 
         function mazeWalls(map, scene, physicsWorld) {
+            function translate(x, y, z, width, height) {
+                pos.set(x - (width / 2) + 0.75, y, z - (height / 2) + 0.75);
+            }
+
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "w") {
                         quat.set(0, 0, 0, 1);
-                        pos.set(x, 0.5, z);
+                        //pos.set(x, 0.5, z);
+                        translate(x, 0.5, z, xl, zl);
                         wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 }, scene, physicsWorld);
                     }
                 }
@@ -112,7 +117,7 @@
         function ground(scene, physicsWorld) {
             pos.set(0, - 0.5, 0);
             quat.set(0, 0, 0, 1);
-            var ground = new meshfactory.Ground({ pos: pos, quat: quat });
+            var ground = new meshfactory.Ground({ pos: pos, quat: quat, sx: map[0].length, sy: 0.5, sz: map.length });
             scene.add(ground.mesh);
             physicsWorld.addRigidBody(ground.body);
         }

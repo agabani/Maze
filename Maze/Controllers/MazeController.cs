@@ -18,7 +18,7 @@ namespace Maze.Controllers
             return View();
         }
 
-        public IActionResult Generate(int seed)
+        public IActionResult Generate(int width = 8, int height = 8, int seed = 0)
         {
             var strings = new[]
             {
@@ -42,7 +42,7 @@ namespace Maze.Controllers
             };
 
             //return Ok(strings);
-            return Ok(_generator.Generate(8, 8));
+            return Ok(_generator.Generate(width, height, seed));
         }
     }
 }

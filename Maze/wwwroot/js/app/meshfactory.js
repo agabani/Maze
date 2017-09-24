@@ -38,10 +38,10 @@
         BallMesh.prototype.material = new THREE.MeshPhongMaterial({ color: 0x202020 });
 
         function GroundMesh(options) {
-            var sx = 40, sy = 1, sz = 40, mass = 0;
+            var mass = 0;
 
-            var mesh = new THREE.Mesh(new THREE.BoxGeometry(sx, sy, sz, 1, 1, 1), this.material);
-            var shape = new Ammo.btBoxShape(new Ammo.btVector3(sx * 0.5, sy * 0.5, sz * 0.5));
+            var mesh = new THREE.Mesh(new THREE.BoxGeometry(options.sx, options.sy, options.sz, 1, 1, 1), this.material);
+            var shape = new Ammo.btBoxShape(new Ammo.btVector3(options.sx * 0.5, options.sy * 0.5, options.sz * 0.5));
 
             PhysicsMesh.call(this, mesh, shape, mass, options.pos, options.quat);
         }

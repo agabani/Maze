@@ -21,29 +21,4 @@ namespace Maze.Application.Models
             _traversable.Add(cell);
         }
     }
-
-    public class MazeGraph
-    {
-        private readonly Dictionary<CartesianCoordinates, MazeCell> _graph;
-
-        public MazeGraph()
-        {
-            _graph = new Dictionary<CartesianCoordinates, MazeCell>();
-        }
-
-        public void Add(MazeCell cell)
-        {
-            _graph.Add(cell.Coordinates, cell);
-        }
-
-        public bool Exists(CartesianCoordinates coordinates)
-        {
-            return _graph.ContainsKey(coordinates);
-        }
-
-        public int Population()
-        {
-            return _graph.Count;
-        }
-    }
 }
