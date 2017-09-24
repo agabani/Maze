@@ -1,9 +1,17 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Maze.Application.Services;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Maze.Controllers
 {
     public class MazeController : Controller
     {
+        private readonly MazeGenerator _generator;
+
+        public MazeController(MazeGenerator generator)
+        {
+            _generator = generator;
+        }
+
         // GET
         public IActionResult Index()
         {
@@ -33,7 +41,8 @@ namespace Maze.Controllers
                 new[] {"w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", " ", "w", "w", "w"}
             };
 
-            return Ok(strings);
+            //return Ok(strings);
+            return Ok(_generator.Generate(8, 8));
         }
     }
 }
