@@ -29,7 +29,7 @@
             init = function() {
                 initGraphics();
                 initPhysics();
-                level.init(scene, physicsWorld, rigidBodies);
+                level.init({ scene: scene, physicsWorld: physicsWorld, rigidBodies: rigidBodies, camera: camera, raycaster: raycaster });
                 initInput();
             };
 
@@ -99,6 +99,7 @@
                 var deltaTime = clock.getDelta();
                 updatePhsyics(deltaTime);
                 processClick();
+                level.render();
                 renderer.render(scene, camera);
             }
 

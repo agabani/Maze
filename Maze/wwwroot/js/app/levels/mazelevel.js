@@ -4,19 +4,29 @@
         "use strict";
 
         var player;
+        var camera;
 
         var pos = new THREE.Vector3();
         var quat = new THREE.Quaternion();
 
-        function init(scene, physicsWorld, rigidBodies) {
-            ground(scene, physicsWorld);
-            walls(scene, physicsWorld);
-            ball(scene, physicsWorld, rigidBodies);
+        function init(options) {
+            camera = options.camera;
+
+            ground(options.scene, options.physicsWorld);
+            walls(options.scene, options.physicsWorld);
+            ball(options.scene, options.physicsWorld, options.rigidBodies);
             initInput();
         }
 
         function interaction(scene, physicsWorld, rigidBodies, raycaster) {
 
+        }
+
+        function render() {
+            var playerPosition = player.mesh.position;
+            camera.position.set(playerPosition.x + 2, 15, playerPosition.z + 6);
+
+            camera.lookAt(player.mesh.position);
         }
 
         function initInput() {
@@ -91,6 +101,7 @@
 
         return {
             init: init,
-            interaction: interaction
+            interaction: interaction,
+            render: render
         };
     });
