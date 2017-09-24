@@ -5,6 +5,7 @@
         "camera": "app/camera",
         "clock": "app/clock",
         "controls": "app/controls",
+        "jquery": "/lib/jquery/dist/jquery",
         "lighting": "app/lighting",
         "mazelevel": "app/levels/mazelevel",
         "meshfactory": "app/meshfactory",
