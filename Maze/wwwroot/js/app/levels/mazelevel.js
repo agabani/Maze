@@ -148,10 +148,11 @@
         }
 
         function handleKeyboard() {
-            if (mode === "manual" && keyRequest === true) {
-                var speed = 5;
+            var linearVelocity;
+            var speed = 5;
 
-                var linearVelocity = player.body.getLinearVelocity();
+            if (mode === "manual" && keyRequest === true) {
+                linearVelocity = player.body.getLinearVelocity();
 
                 switch (keyCode) {
                 case 37: // left arrow
@@ -170,8 +171,50 @@
 
                 keyRequest = false;
             }
+            if (mode === "automatic" && solution.length === 0) {
+                mode = "manual";
+                player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
+            }
             if (mode === "automatic") {
+                function translate(value, limit) {
+                    return Math.floor(value + (limit / 2) - 0.5);
+                }
 
+                var currentLocation = player.mesh.position;
+                var currentX = translate(Math.floor(currentLocation.x), map[0].length);
+                var currentZ = translate(Math.floor(currentLocation.z), map.length);
+
+                var targetX = solution[0].x;
+                var targetZ = solution[0].z;
+
+                if (currentX === targetX && currentZ === targetZ) {
+                    solution.splice(0, 1);
+
+                    targetX = solution[0].x;
+                    targetZ = solution[0].z;
+                }
+
+                linearVelocity = player.body.getLinearVelocity();
+
+                var velocityX = linearVelocity.x();
+                var velocityZ = linearVelocity.z();
+
+                if (targetX < currentX) {
+                    velocityX = -speed;
+                }
+                if (targetX > currentX) {
+                    velocityX = speed;
+                }
+
+                if (targetZ < currentZ) {
+                    velocityZ = -speed;
+                }
+
+                if (targetZ > currentZ) {
+                    velocityZ = speed;
+                }
+
+                player.body.setLinearVelocity(new Ammo.btVector3(velocityX, 0, velocityZ));
             }
         }
 
