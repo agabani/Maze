@@ -8,9 +8,9 @@ namespace Maze.Application.Algorithms
 {
     public class RecursiveBacktracking
     {
-        public void ProcedurallyGenerate(int width, int height)
+        public MazeGraph ProcedurallyGenerate(int width, int height, int seed)
         {
-            var random = new Random();
+            var random = new Random(seed);
             var graph = new MazeGraph();
             var stack = new Stack<MazeCell>();
 
@@ -36,6 +36,8 @@ namespace Maze.Application.Algorithms
                     stack.Pop();
                 }
             }
+
+            return graph;
         }
 
         private static List<CartesianCoordinates> UnvisitedNeighbours(MazeGraph graph, MazeCell cell, int width, int height)
