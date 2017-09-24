@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Maze.Application.Algorithms;
+using Maze.Application.Models;
 using Maze.Application.Values;
 using Maze.DijkstraAlgorithm.Graphing;
 using Maze.DijkstraAlgorithm.Pathing;
@@ -20,6 +21,8 @@ namespace Maze.Application.Services
         {
             var mazeGraph = _algorithm.ProcedurallyGenerate(width, height, seed);
 
+            var cartesianCoordinates = MazeCanvas.DeTranslate(currentLocation.X, currentLocation.Z);
+
             var graphBuilder = new GraphBuilder();
 
             foreach (var mazeCell in mazeGraph.Population())
@@ -32,7 +35,7 @@ namespace Maze.Application.Services
             var dijkstraGraph = graphBuilder.Build();
 
             var shortestPath = new PathFinder(dijkstraGraph).FindShortestPath(
-                dijkstraGraph.Nodes.Single(node => node.Id == Convert(currentLocation)),
+                dijkstraGraph.Nodes.Single(node => node.Id == Convert(cartesianCoordinates)),
                 dijkstraGraph.Nodes.Single(node => node.Id == Convert(new CartesianCoordinates(width - 1, 0))));
 
             return shortestPath.Segments

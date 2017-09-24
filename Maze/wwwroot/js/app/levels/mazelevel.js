@@ -55,8 +55,13 @@
             var currentLocation = player.mesh.position;
 
             function translate(value, limit) {
-                return value + (limit / 2) - 0.5;
+                return Math.floor(value + (limit / 2) - 0.5);
             }
+
+            var x = translate(currentLocation.x, map[0].length);
+            var z = translate(currentLocation.z, map.length);
+            console.log(x);
+            console.log(z);
 
             $.ajax({
                 async: true,
@@ -64,8 +69,8 @@
                     width: maze.width,
                     height: maze.height,
                     seed: maze.seed,
-                    x: translate(currentLocation.x, map[0].length),
-                    z: translate(currentLocation.z, map.length)
+                    x: x,
+                    z: z
                 },
                 method: "GET",
                 success: success,

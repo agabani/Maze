@@ -66,5 +66,10 @@ namespace Maze.Application.Models
         {
             return (x * 2 + 1, z * 2 + 1);
         }
+
+        public static CartesianCoordinates DeTranslate(int x, int z)
+        {
+            return new CartesianCoordinates((x - 1) / 2, (z - 1) / 2);
+        }
     }
 }
