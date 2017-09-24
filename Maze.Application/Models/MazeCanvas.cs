@@ -1,5 +1,6 @@
 ﻿using System;
 using Maze.Application.Services;
+using Maze.Application.Values;
 
 namespace Maze.Application.Models
 {

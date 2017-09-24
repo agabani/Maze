@@ -1,4 +1,4 @@
-﻿namespace Maze.Application.Services
+﻿namespace Maze.Application.Values
 {
     public class CartesianCoordinates
     {

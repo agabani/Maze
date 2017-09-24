@@ -1,4 +1,5 @@
-﻿using Maze.Application.Services;
+﻿using Maze.Application.Algorithms;
+using Maze.Application.Services;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -20,7 +21,8 @@ namespace Maze
         {
             services.AddMvc();
 
-            services.AddSingleton<MazeGenerator, MazeGenerator>();
+            services.AddSingleton<MazeGenerator>();
+            services.AddSingleton<RecursiveBacktracking>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
