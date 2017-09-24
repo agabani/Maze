@@ -8,6 +8,7 @@
     "jquery-validation-unobtrusive": "3.2.6",
     "three.js": "three#r87",
     "requirejs": "2.3.5",
-    "stats.js": "r17"
+    "stats.js": "r17",
+    "dat.gui": "dat-gui#v0.6.5"
   }
 }
