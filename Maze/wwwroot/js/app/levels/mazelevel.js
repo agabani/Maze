@@ -9,11 +9,44 @@
         var pos = new THREE.Vector3();
         var quat = new THREE.Quaternion();
 
+        var map = [
+            ["w", "w", "w", " ", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w"],
+            ["w", " ", "w", " ", " ", " ", "w", " ", " ", " ", "w", " ", " ", " ", " ", " ", "w"],
+            ["w", " ", "w", "w", "w", " ", "w", " ", "w", " ", "w", "w", "w", " ", "w", " ", "w"],
+            ["w", " ", "w", " ", "w", " ", "w", " ", "w", " ", " ", " ", "w", " ", "w", " ", "w"],
+            ["w", " ", "w", " ", "w", " ", "w", " ", "w", "w", "w", " ", "w", " ", "w", "w", "w"],
+            ["w", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w", " ", "w", " ", " ", " ", "w"],
+            ["w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w"],
+            ["w", " ", "w", " ", "w", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w"],
+            ["w", "w", "w", " ", "w", "w", "w", "w", "w", "w", "w", " ", "w", " ", "w", " ", "w"],
+            ["w", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w", " ", "w", " ", " ", " ", "w"],
+            ["w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", " ", "w"],
+            ["w", " ", "w", " ", "w", " ", "w", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w"],
+            ["w", "w", "w", " ", "w", " ", "w", "w", "w", " ", "w", "w", "w", " ", "w", "w", "w"],
+            ["w", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w", " ", "w", " ", " ", " ", "w"],
+            ["w", "w", "w", " ", "w", "w", "w", "w", "w", "w", "w", " ", "w", "w", "w", " ", "w"],
+            ["w", " ", " ", " ", " ", " ", "w", " ", " ", " ", " ", " ", " ", " ", " ", " ", "w"],
+            ["w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", "w", " ", "w", "w", "w"]
+        ];
+
+        function mazeWalls(map, scene, physicsWorld) {
+            for (var z = 0, zl = map.length; z < zl; z++) {
+                for (var x = 0, xl = map[x].length; x < xl; x++) {
+                    if (map[z][x] === "w") {
+                        quat.set(0, 0, 0, 1);
+                        pos.set(x, 0.5, z);
+                        wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 }, scene, physicsWorld);
+                    }
+                }
+            }
+        }
+
         function init(options) {
             camera = options.camera;
 
             ground(options.scene, options.physicsWorld);
-            walls(options.scene, options.physicsWorld);
+            //walls(options.scene, options.physicsWorld);
+            mazeWalls(map, options.scene, options.physicsWorld);
             ball(options.scene, options.physicsWorld, options.rigidBodies);
             initInput();
         }
@@ -31,23 +64,23 @@
 
         function initInput() {
             window.addEventListener("keydown",
-                function (event) {
+                function(event) {
                     var speed = 5;
 
                     var linearVelocity = player.body.getLinearVelocity();
 
                     switch (event.keyCode) {
-                        case 65: // a
-                            player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
+                    case 65: // a
+                        player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
                         break;
-                        case 68: // d
-                            player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
+                    case 68: // d
+                        player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
                         break;
-                        case 87: // w
-                            player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
+                    case 87: // w
+                        player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
                         break;
-                        case 83: // s
-                            player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
+                    case 83: // s
+                        player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
                         break;
                     }
                 },
