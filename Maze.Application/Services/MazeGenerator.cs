@@ -17,7 +17,8 @@ namespace Maze.Application.Services
         {
             var graph = _algorithm.ProcedurallyGenerate(dimensions, seed);
 
-            var coordinates = (CanvasCoordinates)new CartesianCoordinates(dimensions.Width, dimensions.Height);
+            var coordinates = (CanvasCoordinates) new CartesianCoordinates(dimensions.Width, dimensions.Height);
+
             var canvas = new MazeCanvas(new Dimensions(coordinates.X, coordinates.Z));
 
             foreach (var from in graph.Population())
