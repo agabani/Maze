@@ -16,6 +16,11 @@
             return new CanvasCoordinates(coordinates.X * 2 + 1, coordinates.Z * 2 + 1);
         }
 
+        public static implicit operator Dimensions(CartesianCoordinates coordinates)
+        {
+            return new Dimensions(coordinates.X, coordinates.Z);
+        }
+
         protected bool Equals(CartesianCoordinates other)
         {
             return X == other.X && Z == other.Z;

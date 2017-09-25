@@ -15,5 +15,10 @@
         {
             return new CartesianCoordinates((coordinates.X - 1) / 2, (coordinates.Z - 1) / 2);
         }
+
+        public static implicit operator Dimensions(CanvasCoordinates coordinates)
+        {
+            return new Dimensions(coordinates.X, coordinates.Z);
+        }
     }
 }
