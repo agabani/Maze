@@ -5,12 +5,12 @@ namespace Maze.Application.Models
 {
     public class MazeCanvas
     {
-        public MazeCanvas(CanvasCoordinates coordinates)
+        public MazeCanvas(Dimensions dimensions)
         {
-            Map = new string[coordinates.Z][];
+            Map = new string[dimensions.Height][];
             for (var z = 0; z < Map.Length; z++)
             {
-                Map[z] = new string[coordinates.X];
+                Map[z] = new string[dimensions.Width];
                 for (var x = 0; x < Map[z].Length; x++)
                     Map[z][x] = "w";
             }

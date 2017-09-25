@@ -24,12 +24,12 @@ namespace Maze.Controllers
 
         public IActionResult Generate(int width = 8, int height = 8, int? seed = null)
         {
-            return Ok(_generator.Generate(new CartesianCoordinates(width, height), seed ?? Guid.NewGuid().GetHashCode()));
+            return Ok(_generator.Generate(new Dimensions(width, height), seed ?? Guid.NewGuid().GetHashCode()));
         }
 
         public IActionResult Solve(int width, int height, int seed, int x, int z)
         {
-            return Ok(_solver.Solve(new CartesianCoordinates(width, height), seed, new CanvasCoordinates(x, z)));
+            return Ok(_solver.Solve(new Dimensions(width, height), seed, new CanvasCoordinates(x, z)));
         }
     }
 }

@@ -17,7 +17,7 @@ namespace Maze.Application.Services
             _algorithm = algorithm;
         }
 
-        public IEnumerable<CanvasCoordinates> Solve(CartesianCoordinates dimensions, int seed, CanvasCoordinates currentLocation)
+        public IEnumerable<CanvasCoordinates> Solve(Dimensions dimensions, int seed, CanvasCoordinates currentLocation)
         {
             var mazeGraph = _algorithm.ProcedurallyGenerate(dimensions, seed);
 
@@ -26,7 +26,7 @@ namespace Maze.Application.Services
             var shortestPath = new PathFinder(dijkstraGraph)
                 .FindShortestPath(
                     dijkstraGraph.Nodes.Single(node => node.Id == Convert(currentLocation)),
-                    dijkstraGraph.Nodes.Single(node => node.Id == Convert(new CartesianCoordinates(dimensions.X - 1, 0))));
+                    dijkstraGraph.Nodes.Single(node => node.Id == Convert(new CartesianCoordinates(dimensions.Width - 1, 0))));
 
             return shortestPath.Segments
                 .Select(segment => Convert(segment.Destination.Id))
