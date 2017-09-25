@@ -23,6 +23,7 @@ namespace Maze.Application.Services
             foreach (var to in from.Traversable)
                 canvas.Connect(from.Coordinates, to.Coordinates);
 
+            canvas.SetStart(new CartesianCoordinates(0, dimensions.Height - 1));
             canvas.SetGoal(new CartesianCoordinates(dimensions.Width - 1, 0));
 
             return canvas;

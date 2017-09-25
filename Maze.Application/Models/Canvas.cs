@@ -7,6 +7,7 @@ namespace Maze.Application.Models
     {
         private const string Goal = "g";
         private const string Path = " ";
+        private const string Start = "s";
         private const string Wall = "w";
 
         public Canvas(Dimensions dimensions)
@@ -45,6 +46,11 @@ namespace Maze.Application.Models
             for (var z = from.Z; z <= to.Z; z++)
             for (var x = from.X; x <= to.X; x++)
                 Map[z][x] = Path;
+        }
+
+        public void SetStart(CanvasCoordinates coordinates)
+        {
+            Map[coordinates.Z][coordinates.X] = Start;
         }
 
         public void SetGoal(CanvasCoordinates coordinates)

@@ -29,7 +29,7 @@
                 ground(map, options.scene, options.physicsWorld);
                 walls(map, options.scene, options.physicsWorld);
                 goal(map, options.scene);
-                ball(map, options.scene, options.physicsWorld, options.rigidBodies);
+                player = ball(map, options.scene, options.physicsWorld, options.rigidBodies);
                 initGui();
                 initInput();
             });
@@ -113,6 +113,7 @@
                         translate(x, 0, z, xl, zl);
                         var slab = new meshfactory.Slab({ pos: pos, quat: quat, sx: 0.8, sy: 0.1, sz: 0.8 });
                         scene.add(slab.mesh);
+                        return;
                     }
                 }
             }
@@ -123,14 +124,19 @@
                 pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
             }
 
-            translate(1, 0.5, map.length - 2, map[0].length, map.length);
-            quat.set(0, 0, 0, 1);
-            var ball = new meshfactory.Ball({ pos: pos, quat: quat });
-            scene.add(ball.mesh);
-            physicsWorld.addRigidBody(ball.body);
-            rigidBodies.push(ball.mesh);
-
-            player = ball;
+            for (var z = 0, zl = map.length; z < zl; z++) {
+                for (var x = 0, xl = map[x].length; x < xl; x++) {
+                    if (map[z][x] === "s") {
+                        quat.set(0, 0, 0, 1);
+                        translate(x, 0, z, xl, zl);
+                        var b = new meshfactory.Ball({ pos: pos, quat: quat });
+                        scene.add(b.mesh);
+                        physicsWorld.addRigidBody(b.body);
+                        rigidBodies.push(b.mesh);
+                        return b;
+                    }
+                }
+            }
         }
 
         function initGui() {
