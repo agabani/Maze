@@ -16,7 +16,7 @@
         var keyCode;
 
         var mode = "manual";
-        var solution = [];
+        var solution = undefined;
 
         function init(options) {
             camera = options.camera;
@@ -174,11 +174,12 @@
 
                 keyRequest = false;
             }
-            if (mode === "automatic" && solution.length === 0) {
+            if (mode === "automatic" && solution !== undefined && solution.length === 0) {
                 mode = "manual";
+                solution = undefined;
                 player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
             }
-            if (mode === "automatic") {
+            if (mode === "automatic" && solution !== undefined) {
                 function translate(value, limit) {
                     return Math.floor(value + (limit / 2) - 0.5);
                 }
