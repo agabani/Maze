@@ -13,17 +13,17 @@ namespace Maze.Application.Services
             _algorithm = algorithm;
         }
 
-        public Models.Maze Generate(int width, int height, int seed)
+        public Models.Maze Generate(CartesianCoordinates dimensions, int seed)
         {
-            var graph = _algorithm.ProcedurallyGenerate(new CartesianCoordinates(width, height), seed);
+            var graph = _algorithm.ProcedurallyGenerate(dimensions, seed);
 
-            var canvas = new MazeCanvas(new CartesianCoordinates(width, height));
+            var canvas = new MazeCanvas(dimensions);
 
             foreach (var from in graph.Population())
             foreach (var to in from.Traversable)
                 canvas.Connect(from.Coordinates, to.Coordinates);
 
-            return new Models.Maze(canvas.Map, width, height, seed);
+            return new Models.Maze(canvas.Map, dimensions.X, dimensions.Z, seed);
         }
     }
 }
