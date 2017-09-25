@@ -3,10 +3,12 @@
     function(THREE, meshfactory, $, dat) {
         "use strict";
 
+        var manual = "manual", automatic = "automatic";
+
         var player, camera, gui, speed = 5;
         var maze;
         var keyRequest = false, keyCode;
-        var mode = "manual", solution = undefined;
+        var controlMode = manual, solution = undefined;
         var pos = new THREE.Vector3(), quat = new THREE.Quaternion();
 
         function init(options) {
@@ -14,11 +16,10 @@
 
             downloadMaze(function(data) {
                 maze = data;
-
-                ground(maze.map, options.scene, options.physicsWorld);
-                walls(maze.map, options.scene, options.physicsWorld);
-                goal(maze.map, options.scene);
-                player = ball(maze.map, options.scene, options.physicsWorld, options.rigidBodies);
+                createGround(maze.map, options.scene, options.physicsWorld);
+                createWalls(maze.map, options.scene, options.physicsWorld);
+                createGoal(maze.map, options.scene);
+                player = createBall(maze.map, options.scene, options.physicsWorld, options.rigidBodies);
                 initGui();
                 initInput();
             });
@@ -45,18 +46,14 @@
         function downloadSolution(player, map, success) {
             var currentLocation = player.mesh.position;
 
-            function translate(value, limit) {
-                return Math.floor(value + (limit / 2) - 0.5);
-            }
-
             $.ajax({
                 async: true,
                 data: {
                     width: maze.width,
                     height: maze.height,
                     seed: maze.seed,
-                    x: translate(currentLocation.x, map[0].length),
-                    z: translate(currentLocation.z, map.length)
+                    x: translateFromOrigin(currentLocation.x, map[0].length),
+                    z: translateFromOrigin(currentLocation.z, map.length)
                 },
                 method: "GET",
                 success: success,
@@ -64,7 +61,7 @@
             });
         }
 
-        function ground(map, scene, physicsWorld) {
+        function createGround(map, scene, physicsWorld) {
             pos.set(0, -0.5, 0);
             quat.set(0, 0, 0, 1);
             var ground = new meshfactory.Ground({ pos: pos, quat: quat, sx: map[0].length, sy: 0.5, sz: map.length });
@@ -72,7 +69,7 @@
             physicsWorld.addRigidBody(ground.body);
         }
 
-        function walls(map, scene, physicsWorld) {
+        function createWalls(map, scene, physicsWorld) {
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "w") {
@@ -86,7 +83,7 @@
             }
         }
 
-        function goal(map, scene) {
+        function createGoal(map, scene) {
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "g") {
@@ -100,17 +97,17 @@
             }
         }
 
-        function ball(map, scene, physicsWorld, rigidBodies) {
+        function createBall(map, scene, physicsWorld, rigidBodies) {
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "s") {
                         quat.set(0, 0, 0, 1);
                         translateToOrigin(x, 0, z, xl, zl);
-                        var b = new meshfactory.Ball({ pos: pos, quat: quat });
-                        scene.add(b.mesh);
-                        physicsWorld.addRigidBody(b.body);
-                        rigidBodies.push(b.mesh);
-                        return b;
+                        var ball = new meshfactory.Ball({ pos: pos, quat: quat });
+                        scene.add(ball.mesh);
+                        physicsWorld.addRigidBody(ball.body);
+                        rigidBodies.push(ball.mesh);
+                        return ball;
                     }
                 }
             }
@@ -120,16 +117,22 @@
             pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
         }
 
+        function translateFromOrigin(value, limit) {
+            return Math.floor(value + (limit / 2) - 0.5);
+        }
+
         function initGui() {
             var controller = {
                 manual: function() {
-                    mode = "manual";
+                    controlMode = manual;
                 },
                 automatic: function() {
-                    mode = "automatic";
-                    downloadSolution(player, maze.map, function(data) {
-                        solution = data;
-                    });
+                    controlMode = automatic;
+                    downloadSolution(player,
+                        maze.map,
+                        function(data) {
+                            solution = data;
+                        });
                 }
             };
 
@@ -153,13 +156,11 @@
         }
 
         function handleKeyboard() {
-            if (mode === "manual" && keyRequest === true) {
+            if (controlMode === manual && keyRequest === true) {
                 manualControl(player, keyCode);
-            }
-            else if (mode === "automatic" && solution !== undefined && solution.length === 0) {
+            } else if (controlMode === automatic && solution !== undefined && solution.length === 0) {
                 releaseAutomaticControl();
-            }
-            else if (mode === "automatic" && solution !== undefined) {
+            } else if (controlMode === automatic && solution !== undefined) {
                 automaticControl(player, maze.map);
             }
         }
@@ -186,19 +187,15 @@
         }
 
         function releaseAutomaticControl() {
-            mode = "manual";
+            controlMode = manual;
             solution = undefined;
             player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
         }
 
         function automaticControl(player, map) {
-            function translate(value, limit) {
-                return Math.floor(value + (limit / 2) - 0.5);
-            }
-
             var currentLocation = player.mesh.position;
-            var currentX = translate(Math.floor(currentLocation.x), map[0].length);
-            var currentZ = translate(Math.floor(currentLocation.z), map.length);
+            var currentX = translateFromOrigin(Math.floor(currentLocation.x), map[0].length);
+            var currentZ = translateFromOrigin(Math.floor(currentLocation.z), map.length);
 
             var targetX = solution[0].x;
             var targetZ = solution[0].z;
