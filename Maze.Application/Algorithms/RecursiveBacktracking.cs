@@ -8,13 +8,13 @@ namespace Maze.Application.Algorithms
 {
     public class RecursiveBacktracking
     {
-        public MazeGraph ProcedurallyGenerate(int width, int height, int seed)
+        public MazeGraph ProcedurallyGenerate(CartesianCoordinates dimensions, int seed)
         {
             var random = new Random(seed);
             var graph = new MazeGraph();
             var stack = new Stack<MazeCell>();
 
-            var initialCell = new MazeCell(new CartesianCoordinates(random.Next(width), random.Next(height)));
+            var initialCell = new MazeCell(new CartesianCoordinates(random.Next(dimensions.X), random.Next(dimensions.Z)));
             graph.Add(initialCell);
             stack.Push(initialCell);
 
@@ -22,7 +22,7 @@ namespace Maze.Application.Algorithms
             {
                 var currentCell = stack.Peek();
 
-                var unvisitedNeighbours = UnvisitedNeighbours(graph, currentCell, width, height).ToList();
+                var unvisitedNeighbours = UnvisitedNeighbours(graph, currentCell, dimensions).ToList();
 
                 if (unvisitedNeighbours.Any())
                 {
@@ -43,26 +43,26 @@ namespace Maze.Application.Algorithms
             return graph;
         }
 
-        private static IEnumerable<CartesianCoordinates> UnvisitedNeighbours(MazeGraph graph, MazeCell cell, int width, int height)
+        private static IEnumerable<CartesianCoordinates> UnvisitedNeighbours(MazeGraph graph, MazeCell cell, CartesianCoordinates dimensions)
         {
-            return Neighbours(cell.Coordinates, width, height)
+            return Neighbours(cell.Coordinates, dimensions)
                 .Where(coordinates => !graph.Exists(coordinates));
         }
 
-        private static IEnumerable<CartesianCoordinates> Neighbours(CartesianCoordinates coordinates, int width, int height)
+        private static IEnumerable<CartesianCoordinates> Neighbours(CartesianCoordinates coordinates, CartesianCoordinates dimensions)
         {
             var neigbours = new List<CartesianCoordinates>();
 
             if (coordinates.X - 1 >= 0)
                 neigbours.Add(new CartesianCoordinates(coordinates.X - 1, coordinates.Z));
 
-            if (coordinates.X + 1 < width)
+            if (coordinates.X + 1 < dimensions.X)
                 neigbours.Add(new CartesianCoordinates(coordinates.X + 1, coordinates.Z));
 
             if (coordinates.Z - 1 >= 0)
                 neigbours.Add(new CartesianCoordinates(coordinates.X, coordinates.Z - 1));
 
-            if (coordinates.Z + 1 < height)
+            if (coordinates.Z + 1 < dimensions.Z)
                 neigbours.Add(new CartesianCoordinates(coordinates.X, coordinates.Z + 1));
 
             return neigbours;

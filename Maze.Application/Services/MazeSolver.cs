@@ -19,7 +19,7 @@ namespace Maze.Application.Services
 
         public IEnumerable<CanvasCoordinates> Solve(int width, int height, int seed, CanvasCoordinates currentLocation)
         {
-            var mazeGraph = _algorithm.ProcedurallyGenerate(width, height, seed);
+            var mazeGraph = _algorithm.ProcedurallyGenerate(new CartesianCoordinates(width, height), seed);
 
             var dijkstraGraph = DijkstraGraph(mazeGraph);
 

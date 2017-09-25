@@ -15,7 +15,7 @@ namespace Maze.Application.Services
 
         public Models.Maze Generate(int width, int height, int seed)
         {
-            var graph = _algorithm.ProcedurallyGenerate(width, height, seed);
+            var graph = _algorithm.ProcedurallyGenerate(new CartesianCoordinates(width, height), seed);
 
             var canvas = new MazeCanvas(new CartesianCoordinates(width, height));
 

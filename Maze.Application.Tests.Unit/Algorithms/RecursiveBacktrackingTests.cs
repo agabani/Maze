@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using Maze.Application.Algorithms;
+using Maze.Application.Values;
 using Xunit;
 
 namespace Maze.Application.Tests.Unit.Algorithms
@@ -20,7 +21,7 @@ namespace Maze.Application.Tests.Unit.Algorithms
         {
             var recursiveBacktracking = new RecursiveBacktracking();
 
-            var graph = recursiveBacktracking.ProcedurallyGenerate(width, height, seed);
+            var graph = recursiveBacktracking.ProcedurallyGenerate(new CartesianCoordinates(width, height), seed);
 
             Assert.Equal(width * height, graph.Population().Count());
         }
