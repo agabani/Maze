@@ -26,10 +26,10 @@
                 maze = data;
                 map = data.map;
 
-                ground(options.scene, options.physicsWorld);
+                ground(map, options.scene, options.physicsWorld);
                 walls(map, options.scene, options.physicsWorld);
                 goal(map, options.scene);
-                ball(options.scene, options.physicsWorld, options.rigidBodies);
+                ball(map, options.scene, options.physicsWorld, options.rigidBodies);
                 initGui();
                 initInput();
             });
@@ -75,7 +75,7 @@
             });
         }
 
-        function ground(scene, physicsWorld) {
+        function ground(map, scene, physicsWorld) {
             pos.set(0, -0.5, 0);
             quat.set(0, 0, 0, 1);
             var ground = new meshfactory.Ground({ pos: pos, quat: quat, sx: map[0].length, sy: 0.5, sz: map.length });
@@ -118,7 +118,7 @@
             }
         }
 
-        function ball(scene, physicsWorld, rigidBodies) {
+        function ball(map, scene, physicsWorld, rigidBodies) {
             function translate(x, y, z, width, height) {
                 pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
             }
