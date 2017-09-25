@@ -16,4 +16,8 @@
     <ProjectReference Include="..\Maze.Application\Maze.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>
