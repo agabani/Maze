@@ -16,7 +16,7 @@
         var keyCode;
 
         var mode = "manual";
-        var solution;
+        var solution = [];
 
         function init(options) {
             camera = options.camera;
@@ -104,7 +104,11 @@
         }
 
         function ball(scene, physicsWorld, rigidBodies) {
-            pos.set(0, 3.5, 0);
+            function translate(x, y, z, width, height) {
+                pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
+            }
+
+            translate(1, 0.5, map.length - 2, map[0].length, map.length);
             quat.set(0, 0, 0, 1);
             var ball = new meshfactory.Ball({ pos: pos, quat: quat });
             scene.add(ball.mesh);
@@ -123,7 +127,6 @@
                     mode = "automatic";
                     downloadSolution(function(data) {
                         solution = data;
-                        console.log(solution);
                     });
                 }
             };
@@ -189,6 +192,10 @@
 
                 if (currentX === targetX && currentZ === targetZ) {
                     solution.splice(0, 1);
+
+                    if (solution.length === 0) {
+                        return;
+                    }
 
                     targetX = solution[0].x;
                     targetZ = solution[0].z;
