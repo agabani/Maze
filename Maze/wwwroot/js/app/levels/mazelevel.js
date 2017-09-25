@@ -6,6 +6,7 @@
         var player;
         var camera;
         var gui;
+        var speed = 5;
 
         var pos = new THREE.Vector3();
         var quat = new THREE.Quaternion();
@@ -151,81 +152,88 @@
         }
 
         function handleKeyboard() {
-            var linearVelocity;
-            var speed = 5;
-
             if (mode === "manual" && keyRequest === true) {
-                linearVelocity = player.body.getLinearVelocity();
-
-                switch (keyCode) {
-                case 37: // left arrow
-                    player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
-                    break;
-                case 39: // right arrow
-                    player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
-                    break;
-                case 38: // up arrow
-                    player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
-                    break;
-                case 40: // down arrow
-                    player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
-                    break;
-                }
-
-                keyRequest = false;
+                manualControl();
             }
-            if (mode === "automatic" && solution !== undefined && solution.length === 0) {
-                mode = "manual";
-                solution = undefined;
-                player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
+            else if (mode === "automatic" && solution !== undefined && solution.length === 0) {
+                releaseAutomaticControl();
             }
-            if (mode === "automatic" && solution !== undefined) {
-                var ballRadius = 0.4;
-
-                function translate(value, limit) {
-                    return Math.floor(value + (limit / 2) + ballRadius);
-                }
-
-                var currentLocation = player.mesh.position;
-                var currentX = translate(Math.floor(currentLocation.x), map[0].length);
-                var currentZ = translate(Math.floor(currentLocation.z), map.length);
-
-                var targetX = solution[0].x;
-                var targetZ = solution[0].z;
-
-                if (currentX === targetX && currentZ === targetZ) {
-                    solution.splice(0, 1);
-
-                    if (solution.length === 0) {
-                        return;
-                    }
-
-                    targetX = solution[0].x;
-                    targetZ = solution[0].z;
-                }
-
-                linearVelocity = player.body.getLinearVelocity();
-
-                var velocityX = linearVelocity.x();
-                var velocityZ = linearVelocity.z();
-
-                if (targetX < currentX) {
-                    velocityX = -speed;
-                }
-                if (targetX > currentX) {
-                    velocityX = speed;
-                }
-
-                if (targetZ < currentZ) {
-                    velocityZ = -speed;
-                }
-
-                if (targetZ > currentZ) {
-                    velocityZ = speed;
-                }
-
-                player.body.setLinearVelocity(new Ammo.btVector3(velocityX, 0, velocityZ));
+            else if (mode === "automatic" && solution !== undefined) {
+                automaticControl();
             }
+        }
+
+        function manualControl() {
+            var linearVelocity = player.body.getLinearVelocity();
+
+            switch (keyCode) {
+            case 37: // left arrow
+                player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
+                break;
+            case 39: // right arrow
+                player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
+                break;
+            case 38: // up arrow
+                player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
+                break;
+            case 40: // down arrow
+                player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
+                break;
+            }
+
+            keyRequest = false;
+        }
+
+        function releaseAutomaticControl() {
+            mode = "manual";
+            solution = undefined;
+            player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
+        }
+
+        function automaticControl() {
+            function translate(value, limit) {
+                return Math.floor(value + (limit / 2) - 0.5);
+            }
+
+            var currentLocation = player.mesh.position;
+            var currentX = translate(Math.floor(currentLocation.x), map[0].length);
+            var currentZ = translate(Math.floor(currentLocation.z), map.length);
+
+            var targetX = solution[0].x;
+            var targetZ = solution[0].z;
+
+            if (currentX === targetX && currentZ === targetZ) {
+                solution.splice(0, 1);
+
+                if (solution.length === 0) {
+                    return;
+                }
+
+                targetX = solution[0].x;
+                targetZ = solution[0].z;
+            }
+
+            var linearVelocity = player.body.getLinearVelocity();
+
+            var velocityX = linearVelocity.x();
+            var velocityZ = linearVelocity.z();
+
+            if (targetX < currentX) {
+                velocityX = -speed;
+            }
+            if (targetX > currentX) {
+                velocityX = speed;
+            }
+
+            if (targetZ < currentZ) {
+                velocityZ = -speed;
+            }
+
+            if (targetZ > currentZ) {
+                velocityZ = speed;
+            }
+
+            player.body.setLinearVelocity(new Ammo.btVector3(velocityX, 0, velocityZ));
         }
 
         function handleCamera() {
