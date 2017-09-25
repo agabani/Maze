@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using Maze.Application.Algorithms;
-using Maze.Application.Models;
 using Maze.Application.Values;
 using Maze.DijkstraAlgorithm.Graphing;
 using Maze.DijkstraAlgorithm.Pathing;

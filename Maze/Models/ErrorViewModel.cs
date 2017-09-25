@@ -1,5 +1,3 @@
-using System;
-
 namespace Maze.Models
 {
     public class ErrorViewModel
