@@ -3,33 +3,22 @@
     function(THREE, meshfactory, $, dat) {
         "use strict";
 
-        var player;
-        var camera;
-        var gui;
-        var speed = 5;
-
-        var pos = new THREE.Vector3();
-        var quat = new THREE.Quaternion();
-
-        var maze, map;
-
-        var keyRequest = false;
-        var keyCode;
-
-        var mode = "manual";
-        var solution = undefined;
+        var player, camera, gui, speed = 5;
+        var maze;
+        var keyRequest = false, keyCode;
+        var mode = "manual", solution = undefined;
+        var pos = new THREE.Vector3(), quat = new THREE.Quaternion();
 
         function init(options) {
             camera = options.camera;
 
             downloadMaze(function(data) {
                 maze = data;
-                map = data.map;
 
-                ground(map, options.scene, options.physicsWorld);
-                walls(map, options.scene, options.physicsWorld);
-                goal(map, options.scene);
-                player = ball(map, options.scene, options.physicsWorld, options.rigidBodies);
+                ground(maze.map, options.scene, options.physicsWorld);
+                walls(maze.map, options.scene, options.physicsWorld);
+                goal(maze.map, options.scene);
+                player = ball(maze.map, options.scene, options.physicsWorld, options.rigidBodies);
                 initGui();
                 initInput();
             });
@@ -53,7 +42,7 @@
             });
         }
 
-        function downloadSolution(success) {
+        function downloadSolution(player, map, success) {
             var currentLocation = player.mesh.position;
 
             function translate(value, limit) {
@@ -84,15 +73,11 @@
         }
 
         function walls(map, scene, physicsWorld) {
-            function translate(x, y, z, width, height) {
-                pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
-            }
-
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "w") {
                         quat.set(0, 0, 0, 1);
-                        translate(x, 0.5, z, xl, zl);
+                        translateToOrigin(x, 0.5, z, xl, zl);
                         var wall = new meshfactory.Wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 });
                         scene.add(wall.mesh);
                         physicsWorld.addRigidBody(wall.body);
@@ -102,15 +87,11 @@
         }
 
         function goal(map, scene) {
-            function translate(x, y, z, width, height) {
-                pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
-            }
-
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "g") {
                         quat.set(0, 0, 0, 1);
-                        translate(x, 0, z, xl, zl);
+                        translateToOrigin(x, 0, z, xl, zl);
                         var slab = new meshfactory.Slab({ pos: pos, quat: quat, sx: 0.8, sy: 0.1, sz: 0.8 });
                         scene.add(slab.mesh);
                         return;
@@ -120,15 +101,11 @@
         }
 
         function ball(map, scene, physicsWorld, rigidBodies) {
-            function translate(x, y, z, width, height) {
-                pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
-            }
-
             for (var z = 0, zl = map.length; z < zl; z++) {
                 for (var x = 0, xl = map[x].length; x < xl; x++) {
                     if (map[z][x] === "s") {
                         quat.set(0, 0, 0, 1);
-                        translate(x, 0, z, xl, zl);
+                        translateToOrigin(x, 0, z, xl, zl);
                         var b = new meshfactory.Ball({ pos: pos, quat: quat });
                         scene.add(b.mesh);
                         physicsWorld.addRigidBody(b.body);
@@ -139,6 +116,10 @@
             }
         }
 
+        function translateToOrigin(x, y, z, width, height) {
+            pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
+        }
+
         function initGui() {
             var controller = {
                 manual: function() {
@@ -146,7 +127,7 @@
                 },
                 automatic: function() {
                     mode = "automatic";
-                    downloadSolution(function(data) {
+                    downloadSolution(player, maze.map, function(data) {
                         solution = data;
                     });
                 }
@@ -173,17 +154,17 @@
 
         function handleKeyboard() {
             if (mode === "manual" && keyRequest === true) {
-                manualControl();
+                manualControl(player, keyCode);
             }
             else if (mode === "automatic" && solution !== undefined && solution.length === 0) {
                 releaseAutomaticControl();
             }
             else if (mode === "automatic" && solution !== undefined) {
-                automaticControl();
+                automaticControl(player, maze.map);
             }
         }
 
-        function manualControl() {
+        function manualControl(player) {
             var linearVelocity = player.body.getLinearVelocity();
 
             switch (keyCode) {
@@ -210,7 +191,7 @@
             player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
         }
 
-        function automaticControl() {
+        function automaticControl(player, map) {
             function translate(value, limit) {
                 return Math.floor(value + (limit / 2) - 0.5);
             }
