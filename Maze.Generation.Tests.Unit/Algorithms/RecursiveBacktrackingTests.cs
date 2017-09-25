@@ -1,6 +1,8 @@
-﻿using Xunit;
+﻿using System.Linq;
+using Maze.Generation.Algorithms;
+using Xunit;
 
-namespace Maze.Application.Tests.Unit.Algorithms
+namespace Maze.Generation.Tests.Unit.Algorithms
 {
     public class RecursiveBacktrackingTests
     {

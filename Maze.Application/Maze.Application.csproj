@@ -9,8 +9,4 @@
     <ProjectReference Include="..\Maze.Generation\Maze.Generation.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Algorithms\" />
-  </ItemGroup>
-
 </Project>

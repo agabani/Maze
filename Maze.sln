@@ -15,6 +15,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze.DijkstraAlgorithm.Test
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze.Generation", "Maze.Generation\Maze.Generation.csproj", "{924BB365-9958-46E7-AC27-424A154B3CA3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze.Generation.Tests.Unit", "Maze.Generation.Tests.Unit\Maze.Generation.Tests.Unit.csproj", "{AFCAA23C-AA3C-4E72-8DAF-C34EDCC65E85}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -45,6 +47,10 @@ Global
 		{924BB365-9958-46E7-AC27-424A154B3CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{924BB365-9958-46E7-AC27-424A154B3CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{924BB365-9958-46E7-AC27-424A154B3CA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AFCAA23C-AA3C-4E72-8DAF-C34EDCC65E85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AFCAA23C-AA3C-4E72-8DAF-C34EDCC65E85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AFCAA23C-AA3C-4E72-8DAF-C34EDCC65E85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AFCAA23C-AA3C-4E72-8DAF-C34EDCC65E85}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
