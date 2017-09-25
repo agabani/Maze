@@ -93,16 +93,12 @@
                     if (map[z][x] === "w") {
                         quat.set(0, 0, 0, 1);
                         translate(x, 0.5, z, xl, zl);
-                        wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 }, scene, physicsWorld);
+                        var wall = new meshfactory.Wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 });
+                        scene.add(wall.mesh);
+                        physicsWorld.addRigidBody(wall.body);
                     }
                 }
             }
-        }
-
-        function wall(options, scene, physicsWorld) {
-            var wall = new meshfactory.Wall(options);
-            scene.add(wall.mesh);
-            physicsWorld.addRigidBody(wall.body);
         }
 
         function goal(map, scene) {
