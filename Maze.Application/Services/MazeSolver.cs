@@ -17,11 +17,9 @@ namespace Maze.Application.Services
             _algorithm = algorithm;
         }
 
-        public IEnumerable<CanvasCoordinates> Solve(int width, int height, int seed, CartesianCoordinates currentLocation)
+        public IEnumerable<CanvasCoordinates> Solve(int width, int height, int seed, CanvasCoordinates currentLocation)
         {
             var mazeGraph = _algorithm.ProcedurallyGenerate(width, height, seed);
-
-            var cartesianCoordinates = MazeCanvas.DeTranslate(currentLocation.X, currentLocation.Z);
 
             var graphBuilder = new GraphBuilder();
 
@@ -35,17 +33,12 @@ namespace Maze.Application.Services
             var dijkstraGraph = graphBuilder.Build();
 
             var shortestPath = new PathFinder(dijkstraGraph).FindShortestPath(
-                dijkstraGraph.Nodes.Single(node => node.Id == Convert(cartesianCoordinates)),
+                dijkstraGraph.Nodes.Single(node => node.Id == Convert(currentLocation)),
                 dijkstraGraph.Nodes.Single(node => node.Id == Convert(new CartesianCoordinates(width - 1, 0))));
 
             return shortestPath.Segments
                 .Select(segment => Convert(segment.Destination.Id))
-                .Select(coordinates =>
-                {
-                    //var translate = MazeCanvas.Translate(coordinates);
-                    //return new CartesianCoordinates(translate.x, translate.z);
-                    return (CanvasCoordinates)coordinates;
-                });
+                .Select(coordinates => (CanvasCoordinates) coordinates);
         }
 
         private static string Convert(CartesianCoordinates coordinates)

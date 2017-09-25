@@ -29,7 +29,7 @@ namespace Maze.Controllers
 
         public IActionResult Solve(int width, int height, int seed, int x, int z)
         {
-            return Ok(_solver.Solve(width, height, seed, new CartesianCoordinates(x, z)));
+            return Ok(_solver.Solve(width, height, seed, new CanvasCoordinates(x, z)));
         }
     }
 }
