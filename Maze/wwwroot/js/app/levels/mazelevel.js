@@ -4,6 +4,7 @@
         "use strict";
 
         var manual = "manual", automatic = "automatic";
+        var leftArrow = 37, rightArrow = 39, upArrow = 38, downArrow = 40;
 
         var player, camera, gui, speed = 5;
         var maze;
@@ -137,9 +138,7 @@
             };
 
             gui = new dat.GUI();
-
             var h = gui.addFolder("Solve");
-
             h.add(controller, "manual").name("manual");
             h.add(controller, "automatic").name("automatic");
         }
@@ -169,16 +168,16 @@
             var linearVelocity = player.body.getLinearVelocity();
 
             switch (keyCode) {
-            case 37: // left arrow
+            case leftArrow:
                 player.body.setLinearVelocity(new Ammo.btVector3(-speed, 0, linearVelocity.z()));
                 break;
-            case 39: // right arrow
+            case rightArrow:
                 player.body.setLinearVelocity(new Ammo.btVector3(speed, 0, linearVelocity.z()));
                 break;
-            case 38: // up arrow
+            case upArrow:
                 player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, -speed));
                 break;
-            case 40: // down arrow
+            case downArrow:
                 player.body.setLinearVelocity(new Ammo.btVector3(linearVelocity.x(), 0, speed));
                 break;
             }
@@ -196,23 +195,19 @@
             var currentLocation = player.mesh.position;
             var currentX = translateFromOrigin(Math.floor(currentLocation.x), map[0].length);
             var currentZ = translateFromOrigin(Math.floor(currentLocation.z), map.length);
-
             var targetX = solution[0].x;
             var targetZ = solution[0].z;
 
             if (currentX === targetX && currentZ === targetZ) {
                 solution.splice(0, 1);
-
                 if (solution.length === 0) {
                     return;
                 }
-
                 targetX = solution[0].x;
                 targetZ = solution[0].z;
             }
 
             var linearVelocity = player.body.getLinearVelocity();
-
             var velocityX = linearVelocity.x();
             var velocityZ = linearVelocity.z();
 
@@ -222,11 +217,9 @@
             if (targetX > currentX) {
                 velocityX = speed;
             }
-
             if (targetZ < currentZ) {
                 velocityZ = -speed;
             }
-
             if (targetZ > currentZ) {
                 velocityZ = speed;
             }
@@ -238,7 +231,6 @@
             if (player !== undefined) {
                 var playerPosition = player.mesh.position;
                 camera.position.set(playerPosition.x + 2, 15, playerPosition.z + 6);
-
                 camera.lookAt(player.mesh.position);
             }
         }
