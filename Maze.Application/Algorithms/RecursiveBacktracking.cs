@@ -14,7 +14,7 @@ namespace Maze.Application.Algorithms
             var graph = new MazeGraph();
             var stack = new Stack<MazeCell>();
 
-            var initialCell = new MazeCell(new CartesianCoordinates(random.Next(height), random.Next(height)));
+            var initialCell = new MazeCell(new CartesianCoordinates(random.Next(width), random.Next(height)));
             graph.Add(initialCell);
             stack.Push(initialCell);
 

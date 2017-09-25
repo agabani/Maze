@@ -1,5 +1,6 @@
 ﻿using Maze.Application.Algorithms;
 using Maze.Application.Models;
+using Maze.Application.Values;
 
 namespace Maze.Application.Services
 {
@@ -16,7 +17,7 @@ namespace Maze.Application.Services
         {
             var graph = _algorithm.ProcedurallyGenerate(width, height, seed);
 
-            var canvas = new MazeCanvas(width, height);
+            var canvas = new MazeCanvas(new CartesianCoordinates(width, height));
 
             foreach (var from in graph.Population())
             foreach (var to in from.Traversable)

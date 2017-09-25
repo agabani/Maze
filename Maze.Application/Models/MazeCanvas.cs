@@ -5,14 +5,12 @@ namespace Maze.Application.Models
 {
     public class MazeCanvas
     {
-        public MazeCanvas(int width, int height)
+        public MazeCanvas(CanvasCoordinates coordinates)
         {
-            CanvasCoordinates c = new CartesianCoordinates(width, height);
-
-            Map = new string[c.Z][];
+            Map = new string[coordinates.Z][];
             for (var z = 0; z < Map.Length; z++)
             {
-                Map[z] = new string[c.X];
+                Map[z] = new string[coordinates.X];
                 for (var x = 0; x < Map[z].Length; x++)
                     Map[z][x] = "w";
             }
@@ -45,21 +43,14 @@ namespace Maze.Application.Models
                 Map[z][x] = " ";
         }
 
-        public string Get(CartesianCoordinates coordinates)
+        public string Get(CanvasCoordinates coordinates)
         {
-            CanvasCoordinates c = coordinates;
-            return Map[c.Z][c.X];
+            return Map[coordinates.Z][coordinates.X];
         }
 
-        public void Set(CartesianCoordinates coordinates, string value)
+        public void Set(CanvasCoordinates coordinates, string value)
         {
-            CanvasCoordinates c = coordinates;
-            Map[c.Z][c.X] = value;
-        }
-
-        public static CartesianCoordinates DeTranslate(int x, int z)
-        {
-            return new CartesianCoordinates((x - 1) / 2, (z - 1) / 2);
+            Map[coordinates.Z][coordinates.X] = value;
         }
     }
 }
