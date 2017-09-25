@@ -22,7 +22,7 @@ namespace Maze.Application.Algorithms
             {
                 var currentCell = stack.Peek();
 
-                var unvisitedNeighbours = UnvisitedNeighbours(graph, currentCell, width, height);
+                var unvisitedNeighbours = UnvisitedNeighbours(graph, currentCell, width, height).ToList();
 
                 if (unvisitedNeighbours.Any())
                 {
@@ -43,11 +43,10 @@ namespace Maze.Application.Algorithms
             return graph;
         }
 
-        private static List<CartesianCoordinates> UnvisitedNeighbours(MazeGraph graph, MazeCell cell, int width, int height)
+        private static IEnumerable<CartesianCoordinates> UnvisitedNeighbours(MazeGraph graph, MazeCell cell, int width, int height)
         {
             return Neighbours(cell.Coordinates, width, height)
-                .Where(coordinates => !graph.Exists(coordinates))
-                .ToList();
+                .Where(coordinates => !graph.Exists(coordinates));
         }
 
         private static IEnumerable<CartesianCoordinates> Neighbours(CartesianCoordinates coordinates, int width, int height)
