@@ -7,12 +7,12 @@ namespace Maze.Application.Models
     {
         public MazeCanvas(int width, int height)
         {
-            var (xm, zm) = Translate(width, height);
+            CanvasCoordinates c = new CartesianCoordinates(width, height);
 
-            Map = new string[zm][];
+            Map = new string[c.Z][];
             for (var z = 0; z < Map.Length; z++)
             {
-                Map[z] = new string[xm];
+                Map[z] = new string[c.X];
                 for (var x = 0; x < Map[z].Length; x++)
                     Map[z][x] = "w";
             }
@@ -20,51 +20,41 @@ namespace Maze.Application.Models
 
         public string[][] Map { get; }
 
-        public void Connect(CartesianCoordinates a, CartesianCoordinates b)
+        public void Connect(CanvasCoordinates a, CanvasCoordinates b)
         {
-            (int x, int z) from;
-            (int x, int z) to;
+            CanvasCoordinates from;
+            CanvasCoordinates to;
 
             if (a.Z < b.Z && a.X == b.X || a.X < b.X && a.Z == b.Z)
             {
-                from = Translate(a);
-                to = Translate(b);
+                from = a;
+                to = b;
             }
             else if (b.Z < a.Z && b.X == a.X || b.X < a.X && b.Z == a.Z)
             {
-                from = Translate(b);
-                to = Translate(a);
+                from = b;
+                to = a;
             }
             else
             {
                 throw new ArgumentException();
             }
 
-            for (var z = from.z; z <= to.z; z++)
-            for (var x = from.x; x <= to.x; x++)
+            for (var z = from.Z; z <= to.Z; z++)
+            for (var x = from.X; x <= to.X; x++)
                 Map[z][x] = " ";
         }
 
         public string Get(CartesianCoordinates coordinates)
         {
-            var (x, z) = Translate(coordinates);
-            return Map[z][x];
+            CanvasCoordinates c = coordinates;
+            return Map[c.Z][c.X];
         }
 
         public void Set(CartesianCoordinates coordinates, string value)
         {
-            var (x, z) = Translate(coordinates);
-            Map[z][x] = value;
-        }
-
-        public static (int x, int z) Translate(CartesianCoordinates coordinates)
-        {
-            return Translate(coordinates.X, coordinates.Z);
-        }
-
-        private static (int x, int z) Translate(int x, int z)
-        {
-            return (x * 2 + 1, z * 2 + 1);
+            CanvasCoordinates c = coordinates;
+            Map[c.Z][c.X] = value;
         }
 
         public static CartesianCoordinates DeTranslate(int x, int z)

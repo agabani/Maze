@@ -17,7 +17,7 @@ namespace Maze.Application.Services
             _algorithm = algorithm;
         }
 
-        public IEnumerable<CartesianCoordinates> Solve(int width, int height, int seed, CartesianCoordinates currentLocation)
+        public IEnumerable<CanvasCoordinates> Solve(int width, int height, int seed, CartesianCoordinates currentLocation)
         {
             var mazeGraph = _algorithm.ProcedurallyGenerate(width, height, seed);
 
@@ -42,8 +42,9 @@ namespace Maze.Application.Services
                 .Select(segment => Convert(segment.Destination.Id))
                 .Select(coordinates =>
                 {
-                    var translate = MazeCanvas.Translate(coordinates);
-                    return new CartesianCoordinates(translate.x, translate.z);
+                    //var translate = MazeCanvas.Translate(coordinates);
+                    //return new CartesianCoordinates(translate.x, translate.z);
+                    return (CanvasCoordinates)coordinates;
                 });
         }
 
