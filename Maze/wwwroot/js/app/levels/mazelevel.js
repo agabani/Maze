@@ -180,8 +180,10 @@
                 player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
             }
             if (mode === "automatic" && solution !== undefined) {
+                var ballRadius = 0.4;
+
                 function translate(value, limit) {
-                    return Math.floor(value + (limit / 2) - 0.5);
+                    return Math.floor(value + (limit / 2) + ballRadius);
                 }
 
                 var currentLocation = player.mesh.position;
