@@ -5,6 +5,7 @@ namespace Maze.Application.Models
 {
     public class Canvas
     {
+        private const string Goal = "g";
         private const string Path = " ";
         private const string Wall = "w";
 
@@ -46,14 +47,9 @@ namespace Maze.Application.Models
                 Map[z][x] = Path;
         }
 
-        public string Get(CanvasCoordinates coordinates)
+        public void SetGoal(CanvasCoordinates coordinates)
         {
-            return Map[coordinates.Z][coordinates.X];
-        }
-
-        public void Set(CanvasCoordinates coordinates, string value)
-        {
-            Map[coordinates.Z][coordinates.X] = value;
+            Map[coordinates.Z][coordinates.X] = Goal;
         }
     }
 }

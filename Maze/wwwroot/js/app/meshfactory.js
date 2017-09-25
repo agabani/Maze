@@ -63,11 +63,23 @@
         RampMesh.constructor = RampMesh;
         RampMesh.prototype.material = new THREE.MeshPhongMaterial({ color: 0x606060 });
 
+        function SlabMesh(options) {
+            var mass = 0;
+
+            var mesh = new THREE.Mesh(new THREE.BoxGeometry(options.sx, options.sy, options.sz, 1, 1, 1), this.material);
+            var shape = new Ammo.btBoxShape(new Ammo.btVector3(options.sx * 0.5, options.sy * 0.5, options.sz * 0.5));
+
+            PhysicsMesh.call(this, mesh, shape, mass, options.pos, options.quat);
+        }
+
+        SlabMesh.prototype = Object.create(PhysicsMesh.prototype);
+        SlabMesh.constructor = SlabMesh;
+        SlabMesh.prototype.material = new THREE.MeshPhongMaterial({ color: 0x006600 });
+
         function WallMesh(options) {
             var mass = 0;
 
-            var mesh = new THREE.Mesh(new THREE.BoxGeometry(options.sx, options.sy, options.sz, 1, 1, 1),
-                this.material);
+            var mesh = new THREE.Mesh(new THREE.BoxGeometry(options.sx, options.sy, options.sz, 1, 1, 1), this.material);
             var shape = new Ammo.btBoxShape(new Ammo.btVector3(options.sx * 0.5, options.sy * 0.5, options.sz * 0.5));
 
             PhysicsMesh.call(this, mesh, shape, mass, options.pos, options.quat);
@@ -107,6 +119,7 @@
             Ball: BallMesh,
             Ground: GroundMesh,
             Ramp: RampMesh,
+            Slab: SlabMesh,
             Wall: WallMesh
         };
     });

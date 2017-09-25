@@ -28,6 +28,7 @@
 
                 ground(options.scene, options.physicsWorld);
                 walls(map, options.scene, options.physicsWorld);
+                goal(map, options.scene);
                 ball(options.scene, options.physicsWorld, options.rigidBodies);
                 initGui();
                 initInput();
@@ -102,6 +103,23 @@
             var wall = new meshfactory.Wall(options);
             scene.add(wall.mesh);
             physicsWorld.addRigidBody(wall.body);
+        }
+
+        function goal(map, scene) {
+            function translate(x, y, z, width, height) {
+                pos.set(x - (width / 2) + 0.5, y, z - (height / 2) + 0.5);
+            }
+
+            for (var z = 0, zl = map.length; z < zl; z++) {
+                for (var x = 0, xl = map[x].length; x < xl; x++) {
+                    if (map[z][x] === "g") {
+                        quat.set(0, 0, 0, 1);
+                        translate(x, 0, z, xl, zl);
+                        var slab = new meshfactory.Slab({ pos: pos, quat: quat, sx: 0.8, sy: 0.1, sz: 0.8 });
+                        scene.add(slab.mesh);
+                    }
+                }
+            }
         }
 
         function ball(scene, physicsWorld, rigidBodies) {
