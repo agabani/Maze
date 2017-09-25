@@ -1,19 +1,21 @@
 ﻿using System;
-using Maze.Application.Values;
 using Maze.Generation;
 
 namespace Maze.Application.Models
 {
-    public class MazeCanvas
+    public class Canvas
     {
-        public MazeCanvas(Dimensions dimensions)
+        private const string Path = " ";
+        private const string Wall = "w";
+
+        public Canvas(Dimensions dimensions)
         {
             Map = new string[dimensions.Height][];
             for (var z = 0; z < Map.Length; z++)
             {
                 Map[z] = new string[dimensions.Width];
                 for (var x = 0; x < Map[z].Length; x++)
-                    Map[z][x] = "w";
+                    Map[z][x] = Wall;
             }
         }
 
@@ -41,7 +43,7 @@ namespace Maze.Application.Models
 
             for (var z = from.Z; z <= to.Z; z++)
             for (var x = from.X; x <= to.X; x++)
-                Map[z][x] = " ";
+                Map[z][x] = Path;
         }
 
         public string Get(CanvasCoordinates coordinates)

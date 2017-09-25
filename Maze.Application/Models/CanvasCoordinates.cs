@@ -1,6 +1,6 @@
 ﻿using Maze.Generation;
 
-namespace Maze.Application.Values
+namespace Maze.Application.Models
 {
     public class CanvasCoordinates
     {

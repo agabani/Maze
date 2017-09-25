@@ -1,8 +1,13 @@
-﻿namespace Maze.Application.Models
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace Maze.Models
 {
-    public class Maze
+    public class MazeViewModel
     {
-        public Maze(string[][] map, int width, int height, int seed)
+        public MazeViewModel(string[][] map, int width, int height, int seed)
         {
             Map = map;
             Width = width;

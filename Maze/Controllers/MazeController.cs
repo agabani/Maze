@@ -1,7 +1,8 @@
 ﻿using System;
+using Maze.Application.Models;
 using Maze.Application.Services;
-using Maze.Application.Values;
 using Maze.Generation;
+using Maze.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maze.Controllers
@@ -25,7 +26,9 @@ namespace Maze.Controllers
 
         public IActionResult Generate(int width = 8, int height = 8, int? seed = null)
         {
-            return Ok(_generator.Generate(new Dimensions(width, height), seed ?? Guid.NewGuid().GetHashCode()));
+            var seedOrRandom = seed ?? Guid.NewGuid().GetHashCode();
+
+            return Ok(new MazeViewModel(_generator.Generate(new Dimensions(width, height), seedOrRandom).Map, width, height, seedOrRandom));
         }
 
         public IActionResult Solve(int width, int height, int seed, int x, int z)
