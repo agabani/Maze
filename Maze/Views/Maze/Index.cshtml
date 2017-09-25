@@ -1,0 +1,21 @@
+﻿@{
+    ViewBag.Title = "Maze";
+    Layout = "_Layout";
+}
+
+@section Scripts
+{
+    <environment include="Development">
+        <script src="~/js/config.js"></script>
+        <script src="~/lib/requirejs/require.js" data-main="js/main.js"></script>
+    </environment>
+    <environment exclude="Development">
+        <script src="~/js/config.js"></script>
+        <script src="~/lib/requirejs/require.js" data-main="js/main.js"></script>
+    </environment>
+}
+
+@section Styles
+{
+    <link href="~/css/maze.css" type="text/css" rel="stylesheet"/>
+}

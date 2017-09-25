@@ -1,0 +1,11 @@
+{
+  "name": "asp.net",
+  "private": true,
+  "dependencies": {
+    "jquery": "2.2.0",
+    "three.js": "three#r87",
+    "requirejs": "2.3.5",
+    "stats.js": "r17",
+    "dat.gui": "dat-gui#v0.6.5"
+  }
+}

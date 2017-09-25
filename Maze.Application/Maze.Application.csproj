@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Maze.DijkstraAlgorithm\Maze.DijkstraAlgorithm.csproj" />
+    <ProjectReference Include="..\Maze.Generation\Maze.Generation.csproj" />
+  </ItemGroup>
+
+</Project>
