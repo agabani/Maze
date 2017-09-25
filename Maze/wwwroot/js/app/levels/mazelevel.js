@@ -4,6 +4,7 @@
         "use strict";
 
         var manual = "manual", automatic = "automatic";
+        var goal = "g", start = "s", wall = "w";
         var leftArrow = 37, rightArrow = 39, upArrow = 38, downArrow = 40;
 
         var player, camera, gui, speed = 5;
@@ -17,10 +18,7 @@
 
             downloadMaze(function(data) {
                 maze = data;
-                createGround(maze.map, options.scene, options.physicsWorld);
-                createWalls(maze.map, options.scene, options.physicsWorld);
-                createGoal(maze.map, options.scene);
-                player = createBall(maze.map, options.scene, options.physicsWorld, options.rigidBodies);
+                createAssets(maze.map, options.scene, options.physicsWorld, options.rigidBodies);
                 initGui();
                 initInput();
             });
@@ -62,56 +60,56 @@
             });
         }
 
+        function createAssets(map, scene, physicsWorld, rigidBodies) {
+            createGround(map, scene, physicsWorld);
+
+            for (var z = 0, zl = map.length; z < zl; z++) {
+                for (var x = 0, xl = map[x].length; x < xl; x++) {
+                    if (map[z][x] === wall) {
+                        createWall(x, z, xl, zl, scene, physicsWorld);
+                    }
+                    if (map[z][x] === goal) {
+                        createGoal(x, z, xl, zl, scene);
+                    }
+                    if (map[z][x] === start) {
+                        createBall(x, z, xl, zl, scene, physicsWorld, rigidBodies);
+                    }
+                }
+            }
+        }
+
         function createGround(map, scene, physicsWorld) {
             pos.set(0, -0.5, 0);
             quat.set(0, 0, 0, 1);
-            var ground = new meshfactory.Ground({ pos: pos, quat: quat, sx: map[0].length, sy: 0.5, sz: map.length });
-            scene.add(ground.mesh);
-            physicsWorld.addRigidBody(ground.body);
+            var asset = new meshfactory.Ground({ pos: pos, quat: quat, sx: map[0].length, sy: 0.5, sz: map.length });
+            scene.add(asset.mesh);
+            physicsWorld.addRigidBody(asset.body);
         }
 
-        function createWalls(map, scene, physicsWorld) {
-            for (var z = 0, zl = map.length; z < zl; z++) {
-                for (var x = 0, xl = map[x].length; x < xl; x++) {
-                    if (map[z][x] === "w") {
-                        quat.set(0, 0, 0, 1);
-                        translateToOrigin(x, 0.5, z, xl, zl);
-                        var wall = new meshfactory.Wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 });
-                        scene.add(wall.mesh);
-                        physicsWorld.addRigidBody(wall.body);
-                    }
-                }
-            }
+        function createWall(x, z, xl, zl, scene, physicsWorld) {
+            quat.set(0, 0, 0, 1);
+            translateToOrigin(x, 0.5, z, xl, zl);
+            var asset = new meshfactory.Wall({ pos: pos, quat: quat, sx: 0.8, sy: 0.8, sz: 0.8 });
+            scene.add(asset.mesh);
+            physicsWorld.addRigidBody(asset.body);
         }
 
-        function createGoal(map, scene) {
-            for (var z = 0, zl = map.length; z < zl; z++) {
-                for (var x = 0, xl = map[x].length; x < xl; x++) {
-                    if (map[z][x] === "g") {
-                        quat.set(0, 0, 0, 1);
-                        translateToOrigin(x, 0, z, xl, zl);
-                        var slab = new meshfactory.Slab({ pos: pos, quat: quat, sx: 0.8, sy: 0.1, sz: 0.8 });
-                        scene.add(slab.mesh);
-                        return;
-                    }
-                }
-            }
+        function createGoal(x, z, xl, zl, scene) {
+            quat.set(0, 0, 0, 1);
+            translateToOrigin(x, 0, z, xl, zl);
+            var asset = new meshfactory.Slab({ pos: pos, quat: quat, sx: 0.8, sy: 0.1, sz: 0.8 });
+            scene.add(asset.mesh);
+            return;
         }
 
-        function createBall(map, scene, physicsWorld, rigidBodies) {
-            for (var z = 0, zl = map.length; z < zl; z++) {
-                for (var x = 0, xl = map[x].length; x < xl; x++) {
-                    if (map[z][x] === "s") {
-                        quat.set(0, 0, 0, 1);
-                        translateToOrigin(x, 0, z, xl, zl);
-                        var ball = new meshfactory.Ball({ pos: pos, quat: quat });
-                        scene.add(ball.mesh);
-                        physicsWorld.addRigidBody(ball.body);
-                        rigidBodies.push(ball.mesh);
-                        return ball;
-                    }
-                }
-            }
+        function createBall(x, z, xl, zl, scene, physicsWorld, rigidBodies) {
+            quat.set(0, 0, 0, 1);
+            translateToOrigin(x, 0, z, xl, zl);
+            var asset = new meshfactory.Ball({ pos: pos, quat: quat });
+            scene.add(asset.mesh);
+            physicsWorld.addRigidBody(asset.body);
+            rigidBodies.push(asset.mesh);
+            player = asset;
         }
 
         function translateToOrigin(x, y, z, width, height) {
@@ -158,7 +156,7 @@
             if (controlMode === manual && keyRequest === true) {
                 manualControl(player, keyCode);
             } else if (controlMode === automatic && solution !== undefined && solution.length === 0) {
-                releaseAutomaticControl();
+                releaseAutomaticControl(player);
             } else if (controlMode === automatic && solution !== undefined) {
                 automaticControl(player, maze.map);
             }
@@ -185,7 +183,7 @@
             keyRequest = false;
         }
 
-        function releaseAutomaticControl() {
+        function releaseAutomaticControl(player) {
             controlMode = manual;
             solution = undefined;
             player.body.setLinearVelocity(new Ammo.btVector3(0, 0, 0));
