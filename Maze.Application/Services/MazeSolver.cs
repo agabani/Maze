@@ -1,10 +1,11 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Maze.Application.Algorithms;
-using Maze.Application.Models;
 using Maze.Application.Values;
 using Maze.DijkstraAlgorithm.Graphing;
 using Maze.DijkstraAlgorithm.Pathing;
+using Maze.Generation;
+using Maze.Generation.Algorithms;
+using Graph = Maze.DijkstraAlgorithm.Graphing.Graph;
 
 namespace Maze.Application.Services
 {
@@ -33,7 +34,7 @@ namespace Maze.Application.Services
                 .Select(coordinates => (CanvasCoordinates) coordinates);
         }
 
-        private static Graph DijkstraGraph(MazeGraph mazeGraph)
+        private static Graph DijkstraGraph(Generation.Graph mazeGraph)
         {
             var graphBuilder = new GraphBuilder();
 

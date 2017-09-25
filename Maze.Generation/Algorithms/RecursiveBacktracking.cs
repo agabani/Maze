@@ -1,20 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using Maze.Application.Models;
-using Maze.Application.Values;
 
-namespace Maze.Application.Algorithms
+namespace Maze.Generation.Algorithms
 {
     public class RecursiveBacktracking
     {
-        public MazeGraph ProcedurallyGenerate(Dimensions dimensions, int seed)
+        public Graph ProcedurallyGenerate(Dimensions dimensions, int seed)
         {
             var random = new Random(seed);
-            var graph = new MazeGraph();
-            var stack = new Stack<MazeCell>();
+            var graph = new Graph();
+            var stack = new Stack<Cell>();
 
-            var initialCell = new MazeCell(new CartesianCoordinates(random.Next(dimensions.Width), random.Next(dimensions.Height)));
+            var initialCell = new Cell(new CartesianCoordinates(random.Next(dimensions.Width), random.Next(dimensions.Height)));
             graph.Add(initialCell);
             stack.Push(initialCell);
 
@@ -26,7 +24,7 @@ namespace Maze.Application.Algorithms
 
                 if (unvisitedNeighbours.Any())
                 {
-                    var neighbour = new MazeCell(unvisitedNeighbours.ElementAt(random.Next(unvisitedNeighbours.Count)));
+                    var neighbour = new Cell(unvisitedNeighbours.ElementAt(random.Next(unvisitedNeighbours.Count)));
 
                     currentCell.Add(neighbour);
                     neighbour.Add(currentCell);
@@ -43,7 +41,7 @@ namespace Maze.Application.Algorithms
             return graph;
         }
 
-        private static IEnumerable<CartesianCoordinates> UnvisitedNeighbours(MazeGraph graph, MazeCell cell, Dimensions dimensions)
+        private static IEnumerable<CartesianCoordinates> UnvisitedNeighbours(Graph graph, Cell cell, Dimensions dimensions)
         {
             return Neighbours(cell.Coordinates, dimensions)
                 .Where(coordinates => !graph.Exists(coordinates));

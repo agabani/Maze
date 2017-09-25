@@ -1,4 +1,4 @@
-﻿namespace Maze.Application.Values
+﻿namespace Maze.Generation
 {
     public class CartesianCoordinates
     {
@@ -10,11 +10,6 @@
 
         public int X { get; }
         public int Z { get; }
-
-        public static implicit operator CanvasCoordinates(CartesianCoordinates coordinates)
-        {
-            return new CanvasCoordinates(coordinates.X * 2 + 1, coordinates.Z * 2 + 1);
-        }
 
         public static implicit operator Dimensions(CartesianCoordinates coordinates)
         {

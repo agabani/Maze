@@ -1,6 +1,7 @@
 ﻿using System;
 using Maze.Application.Services;
 using Maze.Application.Values;
+using Maze.Generation;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Maze.Controllers

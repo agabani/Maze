@@ -1,5 +1,5 @@
-﻿using Maze.Application.Algorithms;
-using Maze.Application.Services;
+﻿using Maze.Application.Services;
+using Maze.Generation.Algorithms;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

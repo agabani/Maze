@@ -1,6 +1,7 @@
-﻿using Maze.Application.Algorithms;
-using Maze.Application.Models;
+﻿using Maze.Application.Models;
 using Maze.Application.Values;
+using Maze.Generation;
+using Maze.Generation.Algorithms;
 
 namespace Maze.Application.Services
 {

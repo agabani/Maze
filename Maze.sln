@@ -9,9 +9,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze.Application", "Maze.Ap
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze.Application.Tests.Unit", "Maze.Application.Tests.Unit\Maze.Application.Tests.Unit.csproj", "{C43E8EC7-3961-4AD3-995D-603C7886545B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze.DijkstraAlgorithm", "Maze.DijkstraAlgorithm\Maze.DijkstraAlgorithm.csproj", "{147B9AEF-E650-4A8A-861A-233CE2AFC152}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze.DijkstraAlgorithm", "Maze.DijkstraAlgorithm\Maze.DijkstraAlgorithm.csproj", "{147B9AEF-E650-4A8A-861A-233CE2AFC152}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze.DijkstraAlgorithm.Tests.Unit", "Maze.DijkstraAlgorithm.Tests.Unit\Maze.DijkstraAlgorithm.Tests.Unit.csproj", "{AF6CCE77-030C-4013-9E87-16A9F55E0C1F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Maze.DijkstraAlgorithm.Tests.Unit", "Maze.DijkstraAlgorithm.Tests.Unit\Maze.DijkstraAlgorithm.Tests.Unit.csproj", "{AF6CCE77-030C-4013-9E87-16A9F55E0C1F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Maze.Generation", "Maze.Generation\Maze.Generation.csproj", "{924BB365-9958-46E7-AC27-424A154B3CA3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +41,10 @@ Global
 		{AF6CCE77-030C-4013-9E87-16A9F55E0C1F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AF6CCE77-030C-4013-9E87-16A9F55E0C1F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AF6CCE77-030C-4013-9E87-16A9F55E0C1F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{924BB365-9958-46E7-AC27-424A154B3CA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{924BB365-9958-46E7-AC27-424A154B3CA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{924BB365-9958-46E7-AC27-424A154B3CA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{924BB365-9958-46E7-AC27-424A154B3CA3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -1,7 +1,4 @@
-﻿using System.Linq;
-using Maze.Application.Algorithms;
-using Maze.Application.Values;
-using Xunit;
+﻿using Xunit;
 
 namespace Maze.Application.Tests.Unit.Algorithms
 {

@@ -1,4 +1,4 @@
-﻿namespace Maze.Application.Values
+﻿namespace Maze.Generation
 {
     public class Dimensions
     {
@@ -14,11 +14,6 @@
         public static implicit operator CartesianCoordinates(Dimensions dimensions)
         {
             return new CartesianCoordinates(dimensions.Width, dimensions.Height);
-        }
-
-        public static implicit operator CanvasCoordinates(Dimensions dimensions)
-        {
-            return new CanvasCoordinates(dimensions.Width, dimensions.Height);
         }
     }
 }
